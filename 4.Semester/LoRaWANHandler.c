@@ -13,8 +13,8 @@
 #include <status_leds.h>
 
 // Parameters for OTAA join - You have got these in a mail from IHA
-#define LORA_appEUI "XXXXXXXXXXXXXXX"
-#define LORA_appKEY "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
+#define LORA_appEUI "49B360EEE16A8D4C"
+#define LORA_appKEY "E0597BF885F1F18CF896B91F8E211814"
 
 void lora_handler_task( void *pvParameters );
 
@@ -122,13 +122,14 @@ void lora_handler_task( void *pvParameters )
 	_uplink_payload.portNo = 2;
 
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // Upload message every 5 minutes (300000 ms)
+	const TickType_t xFrequency = pdMS_TO_TICKS(30000UL); // Upload message every 5 minutes (300000 ms)
 	xLastWakeTime = xTaskGetTickCount();
 	
 	for(;;)
 	{
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 
+		
 		// Some dummy payload
 		uint16_t hum = 12345; // Dummy humidity
 		int16_t temp = 675; // Dummy temp

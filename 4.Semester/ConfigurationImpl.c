@@ -9,8 +9,9 @@
 
 //-----------------------------Includes--------------------------//
 #include "Configuration.h"
-//---------------------------------------------------------------
 
+//---------------------------------------------------------------
+ 
 
 //-----------------------------Structs---------------------------//
 typedef struct Configuration {
@@ -27,6 +28,7 @@ typedef struct Configuration {
 //-----------------------------Methods--------------------------//
 Configuration_t Configuration_create()
 {
+	 mutex = xSemaphoreCreateMutex();
 	Configuration_t config=pvPortMalloc(sizeof(Configuration));
 	if (NULL==config)
 	{
@@ -43,7 +45,10 @@ ConfigurationReturnCode Configuration_destroy(Configuration_t self)
 }
 ConfigurationReturnCode Configuration_SetMinTemperature(Configuration_t conf,uint16_t temperature_data)
 {
+	//Ask Erland
+	 xSemaphoreTake(mutex, portMAX_DELAY);
 	conf->min_temperature_data=temperature_data;
+	xSemaphoreGive(mutex);
 	return OK;
 
 }

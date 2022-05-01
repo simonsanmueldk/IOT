@@ -3,19 +3,26 @@
  *
  * Created: 4/28/2022 12:47:27 PM
  *  Author: Dorin Pascal
- */ 
-//-----------------------------Define----------------------------//
+ */
+
+
 #ifndef CONFIGURATION_H_
 #define CONFIGURATION_H_
 
-//---------------------------------------------------------------
+
+
 #pragma once
+#include <ATMEGA_FreeRTOS.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdint.h>
+#include <stdint.h> 
+#include <semphr.h>
+typedef enum { OK,FAILED} ConfigurationReturnCode;
 
-typedef enum { OK, FAILED }ConfigurationReturnCode;
+
+SemaphoreHandle_t mutex;
+
 
 typedef struct Configuration* Configuration_t;
 
@@ -32,3 +39,7 @@ uint16_t Configuration_GetMaxHumidity(Configuration_t conf);
 uint16_t Configuration_GetMinTemperature(Configuration_t conf);
 uint16_t Configuration_GetMinHumidity(Configuration_t conf);
 #endif /* CONFIGURATION_H_*/
+
+
+
+
