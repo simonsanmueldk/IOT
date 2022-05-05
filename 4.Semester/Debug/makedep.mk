@@ -30,6 +30,8 @@ FreeRTOS\src\variantHooks.c
 
 SensorDataHandler.c
 
+TempHumSensorImpl.c
+
 UpLinkHandler.c
 
 main.c

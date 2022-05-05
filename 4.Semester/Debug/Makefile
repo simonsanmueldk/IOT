@@ -57,6 +57,7 @@ C_SRCS +=  \
 ../FreeRTOS/src/timers.c \
 ../FreeRTOS/src/variantHooks.c \
 ../SensorDataHandler.c \
+../TempHumSensorImpl.c \
 ../UpLinkHandler.c \
 ../main.c \
 ../LoRaWANHandler.c
@@ -83,6 +84,7 @@ FreeRTOS/src/tasks.o \
 FreeRTOS/src/timers.o \
 FreeRTOS/src/variantHooks.o \
 SensorDataHandler.o \
+TempHumSensorImpl.o \
 UpLinkHandler.o \
 main.o \
 LoRaWANHandler.o
@@ -102,6 +104,7 @@ FreeRTOS/src/tasks.o \
 FreeRTOS/src/timers.o \
 FreeRTOS/src/variantHooks.o \
 SensorDataHandler.o \
+TempHumSensorImpl.o \
 UpLinkHandler.o \
 main.o \
 LoRaWANHandler.o
@@ -121,6 +124,7 @@ FreeRTOS/src/tasks.d \
 FreeRTOS/src/timers.d \
 FreeRTOS/src/variantHooks.d \
 SensorDataHandler.d \
+TempHumSensorImpl.d \
 UpLinkHandler.d \
 main.d \
 LoRaWANHandler.d
@@ -140,6 +144,7 @@ FreeRTOS/src/tasks.d \
 FreeRTOS/src/timers.d \
 FreeRTOS/src/variantHooks.d \
 SensorDataHandler.d \
+TempHumSensorImpl.d \
 UpLinkHandler.d \
 main.d \
 LoRaWANHandler.d
@@ -250,6 +255,13 @@ FreeRTOS/src/variantHooks.o: ../FreeRTOS/src/variantHooks.c
 	
 
 ./SensorDataHandler.o: .././SensorDataHandler.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)D:\Arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=16000000L  -I"D:\Arduino\7.0\Packs\atmel\ATmega_DFP\1.6.364\include" -I"../drivers" -I"../FreeRTOS/src"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "D:\Arduino\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./TempHumSensorImpl.o: .././TempHumSensorImpl.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)D:\Arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=16000000L  -I"D:\Arduino\7.0\Packs\atmel\ATmega_DFP\1.6.364\include" -I"../drivers" -I"../FreeRTOS/src"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "D:\Arduino\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
