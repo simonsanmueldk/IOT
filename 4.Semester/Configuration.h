@@ -28,16 +28,16 @@ typedef struct Configuration* Configuration_t;
 
 Configuration_t Configuration_create();
 ConfigurationReturnCode Configuration_destroy();
-ConfigurationReturnCode Configuration_SetMinTemperature(Configuration_t conf,uint16_t temperature_data);
-ConfigurationReturnCode Configuration_SetMinHumidity(Configuration_t conf,uint16_t humidity_data);
-ConfigurationReturnCode Configuration_SetMinCO2(Configuration_t conf,uint16_t co2_data);
-ConfigurationReturnCode Configuration_SetMaxTemperature(Configuration_t conf,uint16_t temperature_data);
-ConfigurationReturnCode Configuration_SetMaxHumidity(Configuration_t conf,uint16_t humidity_data);
-ConfigurationReturnCode Configuration_SetMaxCO2(Configuration_t conf,uint16_t co2_data);
-uint16_t Configuration_GetMaxTemperature(Configuration_t conf);
-uint16_t Configuration_GetMaxHumidity(Configuration_t conf);
-uint16_t Configuration_GetMinTemperature(Configuration_t conf);
-uint16_t Configuration_GetMinHumidity(Configuration_t conf);
+ConfigurationReturnCode Configuration_SetMinTemperature(uint16_t temperature_data);
+ConfigurationReturnCode Configuration_SetMinHumidity(uint16_t humidity_data);
+ConfigurationReturnCode Configuration_SetMinCO2(uint16_t co2_data);
+ConfigurationReturnCode Configuration_SetMaxTemperature(uint16_t temperature_data);
+ConfigurationReturnCode Configuration_SetMaxHumidity(uint16_t humidity_data);
+ConfigurationReturnCode Configuration_SetMaxCO2(uint16_t co2_data);
+uint16_t Configuration_GetMaxTemperature();
+uint16_t Configuration_GetMaxHumidity();
+uint16_t Configuration_GetMinTemperature();
+uint16_t Configuration_GetMinHumidity();
 #endif /* CONFIGURATION_H_*/
 
 

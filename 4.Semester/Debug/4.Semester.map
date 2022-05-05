@@ -92,6 +92,8 @@ d:/arduino/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../
 Allocating common symbols
 Common symbol       size              file
 
+conf                0x2               ConfigurationImpl.o
+packet              0x2               SensorDataHandler.o
 __brkval            0x2               d:/arduino/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(malloc.o)
 mutex               0x2               ConfigurationImpl.o
 portTickRateHz      0x4               FreeRTOS/src/port.o
@@ -109,40 +111,36 @@ Discarded input sections
  .data          0x00000000        0x0 ConfigurationImpl.o
  .bss           0x00000000        0x0 ConfigurationImpl.o
  .text.Configuration_create
-                0x00000000       0x20 ConfigurationImpl.o
+                0x00000000       0x44 ConfigurationImpl.o
  .text.Configuration_destroy
                 0x00000000        0x8 ConfigurationImpl.o
  .text.Configuration_SetMinTemperature
-                0x00000000       0x46 ConfigurationImpl.o
+                0x00000000       0x48 ConfigurationImpl.o
  .text.Configuration_SetMinHumidity
-                0x00000000        0xa ConfigurationImpl.o
- .text.Configuration_SetMinCO2
-                0x00000000        0xa ConfigurationImpl.o
+                0x00000000       0x48 ConfigurationImpl.o
  .text.Configuration_SetMaxTemperature
-                0x00000000        0xa ConfigurationImpl.o
+                0x00000000       0x48 ConfigurationImpl.o
  .text.Configuration_SetMaxHumidity
-                0x00000000        0xa ConfigurationImpl.o
- .text.Configuration_SetMaxCO2
-                0x00000000        0xa ConfigurationImpl.o
+                0x00000000       0x48 ConfigurationImpl.o
  .text.Configuration_GetMaxTemperature
-                0x00000000        0x8 ConfigurationImpl.o
+                0x00000000       0x20 ConfigurationImpl.o
  .text.Configuration_GetMaxHumidity
-                0x00000000        0x8 ConfigurationImpl.o
+                0x00000000       0x20 ConfigurationImpl.o
  .text.Configuration_GetMinTemperature
-                0x00000000        0x8 ConfigurationImpl.o
+                0x00000000       0x20 ConfigurationImpl.o
  .text.Configuration_GetMinHumidity
-                0x00000000        0x8 ConfigurationImpl.o
- .debug_info    0x00000000      0x4d5 ConfigurationImpl.o
- .debug_abbrev  0x00000000      0x162 ConfigurationImpl.o
- .debug_loc     0x00000000      0x267 ConfigurationImpl.o
+                0x00000000       0x20 ConfigurationImpl.o
+ .debug_info    0x00000000      0x4fe ConfigurationImpl.o
+ .debug_abbrev  0x00000000      0x144 ConfigurationImpl.o
+ .debug_loc     0x00000000      0x1ee ConfigurationImpl.o
  .debug_aranges
-                0x00000000       0x78 ConfigurationImpl.o
- .debug_ranges  0x00000000       0x68 ConfigurationImpl.o
- .debug_line    0x00000000      0x233 ConfigurationImpl.o
- .debug_str     0x00000000      0x446 ConfigurationImpl.o
+                0x00000000       0x68 ConfigurationImpl.o
+ .debug_ranges  0x00000000       0x58 ConfigurationImpl.o
+ .debug_line    0x00000000      0x26c ConfigurationImpl.o
+ .debug_str     0x00000000      0x3ec ConfigurationImpl.o
  .comment       0x00000000       0x31 ConfigurationImpl.o
- .debug_frame   0x00000000       0xe8 ConfigurationImpl.o
- COMMON         0x00000000        0x2 ConfigurationImpl.o
+ .debug_frame   0x00000000       0xf4 ConfigurationImpl.o
+ COMMON         0x00000000        0x4 ConfigurationImpl.o
  .text          0x00000000        0x0 FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.o
  .data          0x00000000        0x0 FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.o
  .bss           0x00000000        0x0 FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.o
@@ -358,24 +356,27 @@ Discarded input sections
  .text          0x00000000        0x0 SensorDataHandler.o
  .data          0x00000000        0x0 SensorDataHandler.o
  .bss           0x00000000        0x0 SensorDataHandler.o
+ .text.SensorDataPackage_create
+                0x00000000       0x34 SensorDataHandler.o
  .text.setCO2Ppm
-                0x00000000        0x8 SensorDataHandler.o
+                0x00000000        0xe SensorDataHandler.o
  .text.setTemperatureData
-                0x00000000        0x8 SensorDataHandler.o
+                0x00000000        0xe SensorDataHandler.o
  .text.setHumidityData
-                0x00000000        0x8 SensorDataHandler.o
+                0x00000000        0xe SensorDataHandler.o
  .text.getLoRaPayload
-                0x00000000       0x46 SensorDataHandler.o
+                0x00000000       0x4a SensorDataHandler.o
  .bss.payload   0x00000000       0x16 SensorDataHandler.o
- .debug_info    0x00000000      0x22c SensorDataHandler.o
- .debug_abbrev  0x00000000       0xd5 SensorDataHandler.o
+ .debug_info    0x00000000      0x235 SensorDataHandler.o
+ .debug_abbrev  0x00000000      0x129 SensorDataHandler.o
  .debug_aranges
-                0x00000000       0x38 SensorDataHandler.o
- .debug_ranges  0x00000000       0x28 SensorDataHandler.o
- .debug_line    0x00000000      0x139 SensorDataHandler.o
- .debug_str     0x00000000      0x247 SensorDataHandler.o
+                0x00000000       0x40 SensorDataHandler.o
+ .debug_ranges  0x00000000       0x30 SensorDataHandler.o
+ .debug_line    0x00000000      0x197 SensorDataHandler.o
+ .debug_str     0x00000000      0x26f SensorDataHandler.o
  .comment       0x00000000       0x31 SensorDataHandler.o
- .debug_frame   0x00000000       0x54 SensorDataHandler.o
+ .debug_frame   0x00000000       0x64 SensorDataHandler.o
+ COMMON         0x00000000        0x2 SensorDataHandler.o
  .text          0x00000000        0x0 main.o
  .data          0x00000000        0x0 main.o
  .bss           0x00000000        0x0 main.o

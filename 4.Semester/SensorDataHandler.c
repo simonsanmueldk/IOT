@@ -13,31 +13,44 @@ typedef struct SensorDataPackage
 	uint16_t humidityData;
 	}SensorDataPackage;
 
-void setCO2Ppm(SensorDataPackage_t self,uint16_t pppm)
-{
-	
-	self->co2Ppm=pppm;
-}
-void setTemperatureData(SensorDataPackage_t self,uint16_t data)
-{
-self->temperatureData=data;	
-}
-void setHumidityData(SensorDataPackage_t self,uint16_t data)
-{
-	
-self->humidityData=data;	
-}
-lora_driver_payload_t getLoRaPayload(SensorDataPackage_t self,uint8_t portNo){
+SensorDataPackage_t packet;
 
-	 payload.len = 20;
-		payload.portNo = 2;
+SensorDataPackage_t SensorDataPackage_create(){
+	 packet = pvPortMalloc(sizeof(SensorDataPackage));
 	
-	payload.bytes[0]=(self->co2Ppm>>8) & 0xFF;
-	payload.bytes[1] = (self->co2Ppm >> 0) & 0xFF;
-	payload.bytes[3]=(self->temperatureData>>8) & 0xFF;
-	payload.bytes[4] = (self->temperatureData >> 0) & 0xFF;
-	payload.bytes[5]=(self->humidityData>>8) & 0xFF;
-	payload.bytes[6] = (self->humidityData >> 0) & 0xFF;
+	if (NULL == packet){
+		return NULL;
+	}
+	packet->co2Ppm=0;
+	packet->humidityData=0;
+	packet->temperatureData=0;
 	
+	return packet;
+}
+
+void setCO2Ppm(uint16_t pppm)
+{
+	packet->co2Ppm=pppm;
+}
+void setTemperatureData(uint16_t data)
+{
+packet->temperatureData=data;	
+}
+void setHumidityData(uint16_t data)
+{
+	
+packet->humidityData=data;	
+}
+lora_driver_payload_t getLoRaPayload(uint8_t portNo){
+
+	 payload.len = 6;
+	 payload.portNo = portNo;
+	
+	payload.bytes[0]=(uint8_t)(packet->co2Ppm>>8);
+	payload.bytes[1] =(uint8_t) (packet->co2Ppm & 0xFF);
+	payload.bytes[3]=(uint8_t)(packet->temperatureData>>8);
+	payload.bytes[4] = (uint8_t)(packet->temperatureData &  0xFF);
+	payload.bytes[5]=(uint8_t)(packet->humidityData>>8);
+	payload.bytes[6] = (uint8_t)(packet->humidityData &  0xFF);
 	return payload;
 	};

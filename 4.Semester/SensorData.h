@@ -15,7 +15,8 @@
 
 typedef struct SensorDataPackage* SensorDataPackage_t;
 
-void setCO2Ppm(SensorDataPackage_t self,uint16_t pppm);
-void setTemperatureData(SensorDataPackage_t self,uint16_t data);
-void setHumidityData(SensorDataPackage_t self,uint16_t data);
-lora_driver_payload_t getLoRaPayload(SensorDataPackage_t self,uint8_t portNo);
+SensorDataPackage_t SensorDataPackage_create();
+void setCO2Ppm(uint16_t pppm);
+void setTemperatureData(uint16_t data);
+void setHumidityData(uint16_t data);
+lora_driver_payload_t getLoRaPayload(uint8_t portNo);

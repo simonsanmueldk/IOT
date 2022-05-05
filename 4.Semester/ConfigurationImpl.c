@@ -15,26 +15,28 @@
 
 //-----------------------------Structs---------------------------//
 typedef struct Configuration {
-	uint16_t min_co2_data;
-	uint16_t max_co2_data;
 	uint16_t min_temperature_data;
 	uint16_t max_temperature_data;
 	uint16_t min_humidity_data;
 	uint16_t max_humidity_data;
 } Configuration;
 //---------------------------------------------------------------
-
+Configuration_t conf;
 
 //-----------------------------Methods--------------------------//
 Configuration_t Configuration_create()
 {
 	 mutex = xSemaphoreCreateMutex();
-	Configuration_t config=pvPortMalloc(sizeof(Configuration));
-	if (NULL==config)
+	 conf=pvPortMalloc(sizeof(Configuration));
+	if (NULL==conf)
 	{
 		return NULL;
 	}
-	return config;
+	conf->max_humidity_data=0;
+	conf->max_temperature_data=0;
+	conf->min_humidity_data=0;
+	conf->min_temperature_data=0;
+	return conf;
 
 }
 ConfigurationReturnCode Configuration_destroy(Configuration_t self)
@@ -43,7 +45,11 @@ ConfigurationReturnCode Configuration_destroy(Configuration_t self)
 	return OK;
 	
 }
-ConfigurationReturnCode Configuration_SetMinTemperature(Configuration_t conf,uint16_t temperature_data)
+
+
+
+
+ConfigurationReturnCode Configuration_SetMinTemperature(uint16_t temperature_data)
 {
 	//Ask Erland
 	 xSemaphoreTake(mutex, portMAX_DELAY);
@@ -52,49 +58,53 @@ ConfigurationReturnCode Configuration_SetMinTemperature(Configuration_t conf,uin
 	return OK;
 
 }
-ConfigurationReturnCode Configuration_SetMinHumidity(Configuration_t conf,uint16_t humidity_data)
+ConfigurationReturnCode Configuration_SetMinHumidity(uint16_t humidity_data)
 {
+	xSemaphoreTake(mutex, portMAX_DELAY);
 	conf->min_humidity_data=humidity_data;
+	xSemaphoreGive(mutex);
 	return OK;
 
 }
-ConfigurationReturnCode Configuration_SetMinCO2(Configuration_t conf,uint16_t co2_data)
+
+ConfigurationReturnCode Configuration_SetMaxTemperature(uint16_t temperature_data)
 {
-	conf->min_co2_data=co2_data;
-	return OK;
-}
-ConfigurationReturnCode Configuration_SetMaxTemperature(Configuration_t conf,uint16_t temperature_data)
-{
+	xSemaphoreTake(mutex, portMAX_DELAY);
 	conf->max_temperature_data=temperature_data;
+	xSemaphoreGive(mutex);
 	return OK;
 }
-ConfigurationReturnCode Configuration_SetMaxHumidity(Configuration_t conf,uint16_t humidity_data)
+ConfigurationReturnCode Configuration_SetMaxHumidity(uint16_t humidity_data)
 {
-	
+	xSemaphoreTake(mutex, portMAX_DELAY);
 conf->max_humidity_data=humidity_data;
+xSemaphoreGive(mutex);
 return OK;
 }
-ConfigurationReturnCode Configuration_SetMaxCO2(Configuration_t conf,uint16_t co2_data)
+
+uint16_t Configuration_GetMaxTemperature()
 {
-	conf->max_co2_data=co2_data;
-	return OK;
-}
-uint16_t Configuration_GetMaxTemperature(Configuration_t conf)
-{
+	xSemaphoreTake(mutex, portMAX_DELAY);
 	return conf->max_temperature_data;
+	xSemaphoreGive(mutex);
 }
-uint16_t Configuration_GetMaxHumidity(Configuration_t conf)
+uint16_t Configuration_GetMaxHumidity()
 {
+	xSemaphoreTake(mutex, portMAX_DELAY);
 	return conf->max_humidity_data;
+	xSemaphoreGive(mutex);
 }
-uint16_t Configuration_GetMinTemperature(Configuration_t conf)
+uint16_t Configuration_GetMinTemperature()
 {
+	xSemaphoreTake(mutex, portMAX_DELAY);
 	return conf->min_temperature_data;
+	xSemaphoreGive(mutex); 
 }
-uint16_t Configuration_GetMinHumidity(Configuration_t conf)
+uint16_t Configuration_GetMinHumidity()
 {
-	
+	xSemaphoreTake(mutex, portMAX_DELAY);
 	return conf->min_humidity_data;
+	xSemaphoreGive(mutex);
 }
 
 //---------------------------------------------------------------
