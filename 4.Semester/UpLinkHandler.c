@@ -116,6 +116,7 @@ static void _lora_setup(void)
 
 void lora_Handler_task(MessageBufferHandle_t messageBuffer)
 {
+	puts("Start");
 	// Hardware reset of LoRaWAN transceiver
 	lora_driver_resetRn2483(1);
 	vTaskDelay(2);
@@ -133,36 +134,27 @@ void lora_Handler_task(MessageBufferHandle_t messageBuffer)
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // Upload message every 5 minutes (300000 ms)
 	xLastWakeTime = xTaskGetTickCount();
+	
+	size_t xBytesSent;
+	
+	xBytesSent = xMessageBufferReceive(
+	messageBuffer,
+	(void*) &_uplink_payload,  			// Object to be send
+	sizeof(lora_driver_payload_t),	// Size of object
+	portMAX_DELAY);			// Block until space in buffer
 
 	
 	for(;;)
 	{
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
+		
+		if (xBytesSent>0)
+		{
+			//strcpy(_uplink_payload.bytes, xBytesSent);
+			status_leds_shortPuls(led_ST4);  // OPTIONAL
+			printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+		}
 
-		//Get measured humidity
-		/*
-		uint16_t hum = getLoRaPayload(1);
-		
-		//Get measured temperature 
-		int16_t temp = getLoRaPayload(2);
-		
-		//Get measured co2
-		uint16_t co2_ppm = getLoRaPayload(3);
-		
-
-		_uplink_payload.bytes[0] = hum >> 8;
-		_uplink_payload.bytes[1] = hum & 0xFF;
-		_uplink_payload.bytes[2] = temp >> 8;
-		_uplink_payload.bytes[3] = temp & 0xFF;
-		_uplink_payload.bytes[4] = co2_ppm >> 8;
-		_uplink_payload.bytes[5] = co2_ppm & 0xFF;
-		*/
-
-		
-		
-
-		status_leds_shortPuls(led_ST4);  // OPTIONAL
-		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
 	}
 }
 	

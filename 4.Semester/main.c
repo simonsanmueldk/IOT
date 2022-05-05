@@ -25,11 +25,13 @@
 #include <lora_driver.h>
 #include <status_leds.h>
 #include "TempHumSensor.h"
+#include "message_buffer.h"
 
 
 // define two Tasks
 void task1( void *pvParameters );
 void task2( void *pvParameters );
+void Application_Task(void *pvParameters );
 
 //Bit for set
 #define ALL_MEASURE_BITS (1<<1)
@@ -45,39 +47,13 @@ SemaphoreHandle_t xTestSemaphore;
 // Prototype for LoRaWAN handler
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority);
 
- extern MessageBufferHandle_t xMessageBuffer;
-extern EventBits_t measureEventGroup;
+static MessageBufferHandle_t xMessageBuffer;
+static EventBits_t measureEventGroup;
 
 /*-----------------------------------------------------------*/
 
 
-void Application_Task(void* pvParameters)
-{
-	
-	lora_driver_payload_t payload;
-	EventBits_t dataReadyEventGroup;
-	SensorDataPackage_create();
-	for (;;)
-	{
-		xEventGroupSetBits(measureEventGroup,ALL_READY_BITS);
-		dataReadyEventGroup=xEventGroupWaitBits(dataReadyEventGroup,ALL_MEASURE_BITS,pdTRUE,pdTRUE,portMAX_DELAY);
-		if ((dataReadyEventGroup & ALL_MEASURE_BITS  )==ALL_MEASURE_BITS)
-		{
-			 setCO2Ppm(1050);
-			 setTemperatureData(get_temperature_data());
-			 setHumidityData(get_humidity_data());
-		}
-		
-		payload=getLoRaPayload((uint8_t)2);
-		vTaskDelay( pdMS_TO_TICKS(50UL) );
-		xMessageBufferSend(xMessageBuffer,(void*)&payload,sizeof(payload),portMAX_DELAY);
-		
-	}
-	
-	
-	
-	
-}
+
 
 
 
@@ -116,8 +92,8 @@ void create_tasks_and_semaphores(void)
 	//,  NULL );
 	
 	xTaskCreate(
-	task3
-	,  "Task3"  // A name just for humans
+	Application_Task
+	,  "Application"  // A name just for humans
 	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
 	,  NULL
 	,  3  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
@@ -158,7 +134,7 @@ void create_tasks_and_semaphores(void)
 	//}
 //}
 
-void task3( void *pvParameters )
+/*void task3( void *pvParameters )
 {
 	TickType_t xLastWakeTime;
 	//const TickType_t xFrequency = 1000/portTICK_PERIOD_MS; // 1000 ms
@@ -175,8 +151,39 @@ void task3( void *pvParameters )
 		puts("Task4");
 		
 	
-}
+}*/
 /*-----------------------------------------------------------*/
+void Application_Task(void* pvParameters)
+{
+	puts("TASK a");
+	lora_driver_payload_t payload;
+	EventBits_t dataReadyEventGroup;
+	SensorDataPackage_create();
+	for (;;)
+	{
+		
+		xEventGroupSetBits(measureEventGroup,ALL_READY_BITS);
+		puts("TASK b");
+		dataReadyEventGroup=xEventGroupWaitBits(dataReadyEventGroup,ALL_MEASURE_BITS,pdTRUE,pdTRUE,portMAX_DELAY);
+		if ((dataReadyEventGroup & ALL_MEASURE_BITS  )==ALL_MEASURE_BITS)
+		{
+			puts("TASK d");
+			setCO2Ppm(1050);
+			setTemperatureData(get_temperature_data());
+			printf("%d",get_temperature_data());
+			setHumidityData(get_humidity_data());
+		}
+		
+		payload=getLoRaPayload((uint8_t)2);
+		vTaskDelay( pdMS_TO_TICKS(50UL) );
+		xMessageBufferSend(xMessageBuffer,(void*)&payload,sizeof(payload),portMAX_DELAY);
+		
+	}
+	
+	
+	
+	
+}
 void initialiseSystem()
 {
 	// Set output ports for leds used in the example

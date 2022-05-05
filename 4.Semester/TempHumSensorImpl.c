@@ -41,6 +41,7 @@ temperature_humdity_sensor_t temperature_humidity_create(uint16_t temperature_da
 
 uint16_t get_temperature_data()
 {
+	puts("Task1");
 		return (uint16_t)temperature;
 }
 
@@ -92,6 +93,8 @@ void tempHum_taskRun() {
 			vTaskDelay(pdMS_TO_TICKS(50UL));
 		}
 	}
+	puts("Task2");
+	
 	hih8120_measure();
 	vTaskDelay(pdMS_TO_TICKS(5UL));
 	
@@ -112,6 +115,7 @@ void tempHum_taskRun() {
 /* Get Data from the sensors */
 void tempHum_getDataFromTempHumSensorTask( void *pvParameters )
 {
+	puts("Task3");
 	/*Set event bits in group
 	xEventGroupSetBits(_dataReadyEventGroup, TEMPERATURE_HUMIDITY_READY_BIT);
 	*/
