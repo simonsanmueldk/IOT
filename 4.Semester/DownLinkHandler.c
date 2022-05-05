@@ -33,7 +33,11 @@ void lora_DownLinkHandler_create(UBaseType_t priority, MessageBufferHandle_t mes
 void lora_DownLinkHandler_task(MessageBufferHandle_t messageBuffer)
 {
 	
-	xMessageBufferReceive(messageBuffer,(void*) &_downlink_payload,sizeof(lora_driver_payload_t),portMAX_DELAY);
+	xMessageBufferReceive(
+	messageBuffer,
+	(void*) &_downlink_payload,
+	sizeof(lora_driver_payload_t),
+	portMAX_DELAY);
 	
 			if (_downlink_payload.len == 6)
 			{
@@ -41,8 +45,6 @@ void lora_DownLinkHandler_task(MessageBufferHandle_t messageBuffer)
 				Configuration_SetMinHumidity(_downlink_payload.bytes[1]);
 				Configuration_SetMaxTemperature(_downlink_payload.bytes[3]);
 				Configuration_SetMaxHumidity(_downlink_payload.bytes[4]);
-				
-			
 			}
 			else
 			{
