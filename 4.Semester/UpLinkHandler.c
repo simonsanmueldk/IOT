@@ -116,6 +116,7 @@ static void _lora_setup(void)
 
 void lora_Handler_task(MessageBufferHandle_t messageBuffer)
 {
+	puts("Start");
 	// Hardware reset of LoRaWAN transceiver
 	lora_driver_resetRn2483(1);
 	vTaskDelay(2);
