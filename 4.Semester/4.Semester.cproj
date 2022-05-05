@@ -324,12 +324,6 @@
     <Compile Include="FreeRTOS\src\variantHooks.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SensorDataPackageHandler.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="SensorDataPackageHandler.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="UpLinkHandler.c">
       <SubType>compile</SubType>
     </Compile>

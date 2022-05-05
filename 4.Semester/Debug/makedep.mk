@@ -26,8 +26,6 @@ FreeRTOS\src\timers.c
 
 FreeRTOS\src\variantHooks.c
 
-SensorDataPackageHandler.c
-
 UpLinkHandler.c
 
 main.c
