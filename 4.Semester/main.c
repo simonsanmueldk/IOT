@@ -1,9 +1,9 @@
 /*
 * main.c
-* Author : IHA
+* Author : Dorin Pascal
 *
 * Example main file including LoRaWAN setup
-* Just for inspiration :)
+* 
 */
 
 #include <stdio.h>
@@ -12,9 +12,10 @@
 #include <ATMEGA_FreeRTOS.h>
 #include <task.h>
 #include <semphr.h>
-
+#include "SensorData.h"
 #include <stdio_driver.h>
 #include <serial.h>
+#include <event_groups.h>
 
  // Needed for LoRaWAN
 #include <lora_driver.h>
@@ -23,6 +24,10 @@
 // define two Tasks
 void task1( void *pvParameters );
 void task2( void *pvParameters );
+//Bit for set
+#define ALL_MEASURE_BITS (1<<1)
+//Bit for wait
+#define ALL_READY_BITS (1<<0)
 
 // define semaphore handle
 SemaphoreHandle_t xTestSemaphore;
@@ -30,9 +35,48 @@ SemaphoreHandle_t xTestSemaphore;
 // Prototype for LoRaWAN handler
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority);
 
+ extern MessageBufferHandle_t xMessageBuffer;
+extern EventBits_t measureEventGroup;
+
 /*-----------------------------------------------------------*/
+
+
+void Application_Task(void* pvParameters)
+{
+	
+	lora_driver_payload_t payload;
+	EventBits_t dataReadyEventGroup;
+	SensorDataPackage_create();
+	for (;;)
+	{
+		xEventGroupSetBits(measureEventGroup,ALL_READY_BITS);
+		dataReadyEventGroup=xEventGroupWaitBits(dataReadyEventGroup,ALL_MEASURE_BITS,pdTRUE,pdTRUE,portMAX_DELAY);
+		if ((dataReadyEventGroup & ALL_MEASURE_BITS  )==ALL_MEASURE_BITS)
+		{
+			 setCO2Ppm(1050);
+			 //setTemperatureData(uint16_t data);
+			 //setHumidityData(uint16_t data);
+		}
+		
+		payload=getLoRaPayload((uint8_t)2);
+		xTaskDelay( pdMS_TO_TICKS(50UL) );
+		xMessageBufferSend(xMessageBuffer,(void*)&payload,sizeof(payload),portMAX_DELAY);
+		
+	}
+	
+	
+	
+	
+}
+
+
+
+
+
+
 void create_tasks_and_semaphores(void)
 {
+	
 	// Semaphores are useful to stop a Task proceeding, where it should be paused to wait,
 	// because it is sharing a resource, such as the Serial port.
 	// Semaphores should only be used whilst the scheduler is running, but we can set it up here.

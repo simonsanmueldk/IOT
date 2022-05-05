@@ -20,10 +20,14 @@ main.d main.o: .././main.c \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\wdt.h \
  ../FreeRTOS/src/ATMEGA_FreeRTOS.h ../FreeRTOS/src/task.h \
  ../FreeRTOS/src/list.h ../FreeRTOS/src/task.h ../FreeRTOS/src/semphr.h \
- ../FreeRTOS/src/queue.h ../drivers/stdio_driver.h \
+ ../FreeRTOS/src/queue.h .././SensorData.h \
+ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
+ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
+ ../drivers/lora_driver.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
- ../drivers/serial.h ../drivers/lora_driver.h \
  ../FreeRTOS/src/message_buffer.h ../FreeRTOS/src/stream_buffer.h \
+ ../drivers/serial.h ../drivers/stdio_driver.h \
+ ../FreeRTOS/src/event_groups.h ../FreeRTOS/src/timers.h \
  ../drivers/status_leds.h
 
 d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
@@ -82,16 +86,26 @@ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\wdt.h:
 
 ../FreeRTOS/src/queue.h:
 
-../drivers/stdio_driver.h:
+.././SensorData.h:
 
-d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h:
+d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
 
-../drivers/serial.h:
+d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h:
 
 ../drivers/lora_driver.h:
+
+d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h:
 
 ../FreeRTOS/src/message_buffer.h:
 
 ../FreeRTOS/src/stream_buffer.h:
+
+../drivers/serial.h:
+
+../drivers/stdio_driver.h:
+
+../FreeRTOS/src/event_groups.h:
+
+../FreeRTOS/src/timers.h:
 
 ../drivers/status_leds.h:

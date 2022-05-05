@@ -13,21 +13,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000058bc  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000008a0  00000000  00000000  000058fc  2**0
+  5 .debug_aranges 000008a8  00000000  00000000  000058fc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   0000b43a  00000000  00000000  0000619c  2**0
+  6 .debug_info   0000b682  00000000  00000000  000061a4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00002969  00000000  00000000  000115d6  2**0
+  7 .debug_abbrev 000029eb  00000000  00000000  00011826  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000055e7  00000000  00000000  00013f3f  2**0
+  8 .debug_line   00005677  00000000  00000000  00014211  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00002064  00000000  00000000  00019528  2**2
+  9 .debug_frame  00002084  00000000  00000000  00019888  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00003612  00000000  00000000  0001b58c  2**0
+ 10 .debug_str    000036c8  00000000  00000000  0001b90c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000a8af  00000000  00000000  0001eb9e  2**0
+ 11 .debug_loc    0000a93a  00000000  00000000  0001efd4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000858  00000000  00000000  0002944d  2**0
+ 12 .debug_ranges 00000860  00000000  00000000  0002990e  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -6778,32 +6778,23 @@ void vApplicationStackOverflowHook( TaskHandle_t xTask __attribute__((unused)),
     2e90:	f5 cf       	rjmp	.-22     	; 0x2e7c <vApplicationStackOverflowHook+0x2>
 
 00002e92 <task1>:
-	,  NULL );
-}
-
-/*-----------------------------------------------------------*/
-void task1( void *pvParameters )
-{
+		
+		payload=getLoRaPayload((uint8_t)2);
+		xTaskDelay( pdMS_TO_TICKS(50UL) );
+		xMessageBufferSend(xMessageBuffer,(void*)&payload,sizeof(payload),portMAX_DELAY);
+		
+	}
     2e92:	cf 93       	push	r28
     2e94:	df 93       	push	r29
     2e96:	00 d0       	rcall	.+0      	; 0x2e98 <task1+0x6>
     2e98:	1f 92       	push	r1
     2e9a:	cd b7       	in	r28, 0x3d	; 61
     2e9c:	de b7       	in	r29, 0x3e	; 62
-	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 500/portTICK_PERIOD_MS; // 500 ms
-
-	// Initialise the xLastWakeTime variable with the current time.
-	xLastWakeTime = xTaskGetTickCount();
     2e9e:	0e 94 49 0c 	call	0x1892	; 0x1892 <xTaskGetTickCount>
     2ea2:	69 83       	std	Y+1, r22	; 0x01
     2ea4:	7a 83       	std	Y+2, r23	; 0x02
     2ea6:	8b 83       	std	Y+3, r24	; 0x03
     2ea8:	9c 83       	std	Y+4, r25	; 0x04
-
-	for(;;)
-	{
-		xTaskDelayUntil( &xLastWakeTime, xFrequency );
     2eaa:	4f e1       	ldi	r20, 0x1F	; 31
     2eac:	50 e0       	ldi	r21, 0x00	; 0
     2eae:	60 e0       	ldi	r22, 0x00	; 0
@@ -6811,11 +6802,9 @@ void task1( void *pvParameters )
     2eb2:	ce 01       	movw	r24, r28
     2eb4:	01 96       	adiw	r24, 0x01	; 1
     2eb6:	0e 94 5f 0e 	call	0x1cbe	; 0x1cbe <xTaskDelayUntil>
-		puts("Task1"); // stdio functions are not reentrant - Should normally be protected by MUTEX
     2eba:	8a e4       	ldi	r24, 0x4A	; 74
     2ebc:	92 e0       	ldi	r25, 0x02	; 2
     2ebe:	0e 94 96 26 	call	0x4d2c	; 0x4d2c <puts>
-		PORTA ^= _BV(PA0);
     2ec2:	92 b1       	in	r25, 0x02	; 2
     2ec4:	81 e0       	ldi	r24, 0x01	; 1
     2ec6:	89 27       	eor	r24, r25
@@ -6823,32 +6812,17 @@ void task1( void *pvParameters )
     2eca:	ef cf       	rjmp	.-34     	; 0x2eaa <task1+0x18>
 
 00002ecc <task2>:
-	}
-}
-
-/*-----------------------------------------------------------*/
-void task2( void *pvParameters )
-{
     2ecc:	cf 93       	push	r28
     2ece:	df 93       	push	r29
     2ed0:	00 d0       	rcall	.+0      	; 0x2ed2 <task2+0x6>
     2ed2:	1f 92       	push	r1
     2ed4:	cd b7       	in	r28, 0x3d	; 61
     2ed6:	de b7       	in	r29, 0x3e	; 62
-	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 1000/portTICK_PERIOD_MS; // 1000 ms
-
-	// Initialise the xLastWakeTime variable with the current time.
-	xLastWakeTime = xTaskGetTickCount();
     2ed8:	0e 94 49 0c 	call	0x1892	; 0x1892 <xTaskGetTickCount>
     2edc:	69 83       	std	Y+1, r22	; 0x01
     2ede:	7a 83       	std	Y+2, r23	; 0x02
     2ee0:	8b 83       	std	Y+3, r24	; 0x03
     2ee2:	9c 83       	std	Y+4, r25	; 0x04
-
-	for(;;)
-	{
-		xTaskDelayUntil( &xLastWakeTime, xFrequency );
     2ee4:	4e e3       	ldi	r20, 0x3E	; 62
     2ee6:	50 e0       	ldi	r21, 0x00	; 0
     2ee8:	60 e0       	ldi	r22, 0x00	; 0
@@ -6856,26 +6830,25 @@ void task2( void *pvParameters )
     2eec:	ce 01       	movw	r24, r28
     2eee:	01 96       	adiw	r24, 0x01	; 1
     2ef0:	0e 94 5f 0e 	call	0x1cbe	; 0x1cbe <xTaskDelayUntil>
-		puts("Task2"); // stdio functions are not reentrant - Should normally be protected by MUTEX
     2ef4:	80 e5       	ldi	r24, 0x50	; 80
     2ef6:	92 e0       	ldi	r25, 0x02	; 2
     2ef8:	0e 94 96 26 	call	0x4d2c	; 0x4d2c <puts>
-		PORTA ^= _BV(PA7);
     2efc:	82 b1       	in	r24, 0x02	; 2
     2efe:	80 58       	subi	r24, 0x80	; 128
     2f00:	82 b9       	out	0x02, r24	; 2
     2f02:	f0 cf       	rjmp	.-32     	; 0x2ee4 <task2+0x18>
 
 00002f04 <create_tasks_and_semaphores>:
-// Prototype for LoRaWAN handler
-void lora_handler_initialise(UBaseType_t lora_handler_task_priority);
 
-/*-----------------------------------------------------------*/
+
+
+
 void create_tasks_and_semaphores(void)
 {
     2f04:	ef 92       	push	r14
     2f06:	ff 92       	push	r15
     2f08:	0f 93       	push	r16
+	
 	// Semaphores are useful to stop a Task proceeding, where it should be paused to wait,
 	// because it is sharing a resource, such as the Serial port.
 	// Semaphores should only be used whilst the scheduler is running, but we can set it up here.
@@ -7291,7 +7264,7 @@ void lora_handler_task( void *pvParameters )
     314e:	80 e0       	ldi	r24, 0x00	; 0
     3150:	90 e0       	ldi	r25, 0x00	; 0
     3152:	0e 94 c4 0e 	call	0x1d88	; 0x1d88 <vTaskDelay>
-
+ 
 	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
     3156:	64 d1       	rcall	.+712    	; 0x3420 <lora_driver_flushBuffers>
 
@@ -7316,9 +7289,9 @@ void lora_handler_task( void *pvParameters )
     316e:	8b 83       	std	Y+3, r24	; 0x03
     3170:	9c 83       	std	Y+4, r25	; 0x04
     3172:	48 ea       	ldi	r20, 0xA8	; 168
-	
+
 	for(;;)
-	{
+	{ 
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
     3174:	58 e4       	ldi	r21, 0x48	; 72
     3176:	60 e0       	ldi	r22, 0x00	; 0
