@@ -8,7 +8,7 @@
 #include "lora_driver.h" 
 #include "UpLinkHandler.h"
 
-#include "SensorDataPackageHandler.h"
+#include "SensorData.h"
 
 #define LORA_appEUI "49B360EEE16A8D4C"
 #define LORA_appKEY "E0597BF885F1F18CF896B91F8E211814" 
@@ -114,7 +114,7 @@ static void _lora_setup(void)
 
 
 
-void lora_handler_task(MessageBufferHandle_t messageBuffer)
+void lora_Handler_task(MessageBufferHandle_t messageBuffer)
 {
 	// Hardware reset of LoRaWAN transceiver
 	lora_driver_resetRn2483(1);
@@ -140,6 +140,7 @@ void lora_handler_task(MessageBufferHandle_t messageBuffer)
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 
 		//Get measured humidity
+		/*
 		uint16_t hum = getLoRaPayload(1);
 		
 		//Get measured temperature 
@@ -147,6 +148,7 @@ void lora_handler_task(MessageBufferHandle_t messageBuffer)
 		
 		//Get measured co2
 		uint16_t co2_ppm = getLoRaPayload(3);
+		
 
 		_uplink_payload.bytes[0] = hum >> 8;
 		_uplink_payload.bytes[1] = hum & 0xFF;
@@ -154,7 +156,7 @@ void lora_handler_task(MessageBufferHandle_t messageBuffer)
 		_uplink_payload.bytes[3] = temp & 0xFF;
 		_uplink_payload.bytes[4] = co2_ppm >> 8;
 		_uplink_payload.bytes[5] = co2_ppm & 0xFF;
-		
+		*/
 
 		
 		

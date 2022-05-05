@@ -180,6 +180,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Configuration.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ConfigurationImpl.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="DownLinkHandler.c">
       <SubType>compile</SubType>
     </Compile>
@@ -322,6 +328,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="FreeRTOS\src\variantHooks.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SensorData.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SensorDataHandler.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="UpLinkHandler.c">

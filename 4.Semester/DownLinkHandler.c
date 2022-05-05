@@ -1,7 +1,7 @@
 #include <ATMEGA_FreeRTOS.h>
 #include <stddef.h>
 #include <stdio.h>
-#include "ConfigurationImpl.h"
+#include "Configuration.h"
 #include <stdlib.h>
 
 #include <lora_driver.h>
@@ -9,8 +9,7 @@
 #include <message_buffer.h>
 
 static lora_driver_payload_t _downlink_payload;
-
-configuration ConfigurationImpl;
+Configuration_t ConfigurationImpl;
 
 
 void lora_DownLinkHandler_startTask(void* messageBuffer){
@@ -38,12 +37,11 @@ void lora_DownLinkHandler_task(MessageBufferHandle_t messageBuffer)
 	
 			if (_downlink_payload.len == 6)
 			{
-				Configuration_SetMinTemperature(configuration,_downlink_payload.bytes[0]);
-				Configuration_SetMinHumidity(configuration,_downlink_payload.bytes[1]);
-				Configuration_SetMinCO2(configuration,_downlink_payload.bytes[2]);
-				Configuration_SetMaxTemperature(configuration,_downlink_payload.bytes[3]);
-				Configration_SetMaxHumidity(configuration,_downlink_payload.bytes[4]);
-				Configuration_SetMaxCO2(configuration,_downlink_payload.bytes[5]);
+				Configuration_SetMinTemperature(_downlink_payload.bytes[0]);
+				Configuration_SetMinHumidity(_downlink_payload.bytes[1]);
+				Configuration_SetMaxTemperature(_downlink_payload.bytes[3]);
+				Configuration_SetMaxHumidity(_downlink_payload.bytes[4]);
+				
 			
 			}
 			else
@@ -52,6 +50,6 @@ void lora_DownLinkHandler_task(MessageBufferHandle_t messageBuffer)
 				vTaskDelay(pdMS_TO_TICKS(150000));
 			}
 			
-		}
-	}
+		
+
 }

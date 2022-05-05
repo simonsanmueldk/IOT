@@ -51,7 +51,7 @@ ConfigurationReturnCode Configuration_destroy(Configuration_t self)
 
 ConfigurationReturnCode Configuration_SetMinTemperature(uint16_t temperature_data)
 {
-	
+
 	 xSemaphoreTake(mutex, portMAX_DELAY);
 	conf->min_temperature_data=temperature_data;
 	xSemaphoreGive(mutex);
