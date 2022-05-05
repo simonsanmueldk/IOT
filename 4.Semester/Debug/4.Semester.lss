@@ -19,15 +19,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   7 .debug_abbrev 00002969  00000000  00000000  000115d6  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000055e7  00000000  00000000  00013f3f  2**0
+  8 .debug_line   00005777  00000000  00000000  00013f3f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00002064  00000000  00000000  00019528  2**2
+  9 .debug_frame  00002064  00000000  00000000  000196b8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00003612  00000000  00000000  0001b58c  2**0
+ 10 .debug_str    00003621  00000000  00000000  0001b71c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000a8af  00000000  00000000  0001eb9e  2**0
+ 11 .debug_loc    0000a8af  00000000  00000000  0001ed3d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000858  00000000  00000000  0002944d  2**0
+ 12 .debug_ranges 00000858  00000000  00000000  000295ec  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -7084,7 +7084,7 @@ static void _lora_setup(void)
     3022:	a8 01       	movw	r20, r16
     3024:	6d eb       	ldi	r22, 0xBD	; 189
     3026:	72 e0       	ldi	r23, 0x02	; 2
-    3028:	8e ed       	ldi	r24, 0xDE	; 222
+    3028:	80 ee       	ldi	r24, 0xE0	; 224
     302a:	92 e0       	ldi	r25, 0x02	; 2
     302c:	aa d4       	rcall	.+2388   	; 0x3982 <lora_driver_setOtaaIdentity>
     302e:	ca d4       	rcall	.+2452   	; 0x39c4 <lora_driver_mapReturnCodeToText>
@@ -7096,11 +7096,11 @@ static void _lora_setup(void)
     303a:	92 e0       	ldi	r25, 0x02	; 2
     303c:	9f 93       	push	r25
     303e:	8f 93       	push	r24
-    3040:	8e ed       	ldi	r24, 0xDE	; 222
+    3040:	80 ee       	ldi	r24, 0xE0	; 224
     3042:	92 e0       	ldi	r25, 0x02	; 2
     3044:	9f 93       	push	r25
     3046:	8f 93       	push	r24
-    3048:	8f ee       	ldi	r24, 0xEF	; 239
+    3048:	80 ef       	ldi	r24, 0xF0	; 240
     304a:	92 e0       	ldi	r25, 0x02	; 2
     304c:	9f 93       	push	r25
     304e:	8f 93       	push	r24
@@ -7112,7 +7112,7 @@ static void _lora_setup(void)
     3056:	b6 d4       	rcall	.+2412   	; 0x39c4 <lora_driver_mapReturnCodeToText>
     3058:	9f 93       	push	r25
     305a:	8f 93       	push	r24
-    305c:	85 e2       	ldi	r24, 0x25	; 37
+    305c:	86 e2       	ldi	r24, 0x26	; 38
     305e:	93 e0       	ldi	r25, 0x03	; 3
     3060:	9f 93       	push	r25
     3062:	8f 93       	push	r24
@@ -7130,7 +7130,7 @@ static void _lora_setup(void)
     3076:	a6 d4       	rcall	.+2380   	; 0x39c4 <lora_driver_mapReturnCodeToText>
     3078:	9f 93       	push	r25
     307a:	8f 93       	push	r24
-    307c:	84 e3       	ldi	r24, 0x34	; 52
+    307c:	85 e3       	ldi	r24, 0x35	; 53
     307e:	93 e0       	ldi	r25, 0x03	; 3
     3080:	9f 93       	push	r25
     3082:	8f 93       	push	r24
@@ -7148,7 +7148,7 @@ static void _lora_setup(void)
     3096:	8f 93       	push	r24
     3098:	84 ef       	ldi	r24, 0xF4	; 244
     309a:	8f 93       	push	r24
-    309c:	85 e5       	ldi	r24, 0x55	; 85
+    309c:	86 e5       	ldi	r24, 0x56	; 86
     309e:	93 e0       	ldi	r25, 0x03	; 3
     30a0:	9f 93       	push	r25
     30a2:	8f 93       	push	r24
@@ -7174,7 +7174,7 @@ static void _lora_setup(void)
     30be:	8f 93       	push	r24
     30c0:	1f 92       	push	r1
     30c2:	1f 93       	push	r17
-    30c4:	85 e7       	ldi	r24, 0x75	; 117
+    30c4:	86 e7       	ldi	r24, 0x76	; 118
     30c6:	93 e0       	ldi	r25, 0x03	; 3
     30c8:	9f 93       	push	r25
     30ca:	8f 93       	push	r24
@@ -7309,18 +7309,18 @@ void lora_handler_task( void *pvParameters )
     3166:	0e 94 49 0c 	call	0x1892	; 0x1892 <xTaskGetTickCount>
 
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = pdMS_TO_TICKS(30000UL); // Upload message every 5 minutes (300000 ms)
+	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // Upload message every 5 minutes (300000 ms)
 	xLastWakeTime = xTaskGetTickCount();
     316a:	69 83       	std	Y+1, r22	; 0x01
     316c:	7a 83       	std	Y+2, r23	; 0x02
     316e:	8b 83       	std	Y+3, r24	; 0x03
     3170:	9c 83       	std	Y+4, r25	; 0x04
-    3172:	44 e4       	ldi	r20, 0x44	; 68
+    3172:	48 ea       	ldi	r20, 0xA8	; 168
 	
 	for(;;)
 	{
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
-    3174:	57 e0       	ldi	r21, 0x07	; 7
+    3174:	58 e4       	ldi	r21, 0x48	; 72
     3176:	60 e0       	ldi	r22, 0x00	; 0
     3178:	70 e0       	ldi	r23, 0x00	; 0
     317a:	ce 01       	movw	r24, r28
@@ -7363,7 +7363,7 @@ void lora_handler_task( void *pvParameters )
     31ac:	0b d4       	rcall	.+2070   	; 0x39c4 <lora_driver_mapReturnCodeToText>
     31ae:	9f 93       	push	r25
     31b0:	8f 93       	push	r24
-    31b2:	85 e9       	ldi	r24, 0x95	; 149
+    31b2:	86 e9       	ldi	r24, 0x96	; 150
     31b4:	93 e0       	ldi	r25, 0x03	; 3
     31b6:	9f 93       	push	r25
     31b8:	8f 93       	push	r24
@@ -7392,7 +7392,7 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
     31d6:	30 e0       	ldi	r19, 0x00	; 0
     31d8:	48 e8       	ldi	r20, 0x88	; 136
     31da:	51 e0       	ldi	r21, 0x01	; 1
-    31dc:	6a ea       	ldi	r22, 0xAA	; 170
+    31dc:	6b ea       	ldi	r22, 0xAB	; 171
     31de:	73 e0       	ldi	r23, 0x03	; 3
     31e0:	85 e9       	ldi	r24, 0x95	; 149
     31e2:	98 e1       	ldi	r25, 0x18	; 24
@@ -7583,7 +7583,7 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
     3364:	d9 0a       	sbc	r13, r25
     3366:	5c 2c       	mov	r5, r12
     3368:	0f 2e       	mov	r0, r31
-    336a:	fa e4       	ldi	r31, 0x4A	; 74
+    336a:	fb e4       	ldi	r31, 0x4B	; 75
     336c:	8f 2e       	mov	r8, r31
     336e:	f6 e0       	ldi	r31, 0x06	; 6
     3370:	9f 2e       	mov	r9, r31
@@ -7632,7 +7632,7 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
     33ca:	ff 1f       	adc	r31, r31
     33cc:	e6 0d       	add	r30, r6
     33ce:	f7 1d       	adc	r31, r7
-    33d0:	e6 5b       	subi	r30, 0xB6	; 182
+    33d0:	e5 5b       	subi	r30, 0xB5	; 181
     33d2:	f9 4f       	sbci	r31, 0xF9	; 249
     33d4:	20 80       	ld	r2, Z
     33d6:	0d c0       	rjmp	.+26     	; 0x33f2 <_reply2ReturnCode+0xc2>
@@ -7759,7 +7759,7 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
 000034ca <lora_driver_rn2483FactoryReset>:
     34ca:	60 e0       	ldi	r22, 0x00	; 0
     34cc:	70 e0       	ldi	r23, 0x00	; 0
-    34ce:	80 ed       	ldi	r24, 0xD0	; 208
+    34ce:	81 ed       	ldi	r24, 0xD1	; 209
     34d0:	93 e0       	ldi	r25, 0x03	; 3
     34d2:	d4 de       	rcall	.-600    	; 0x327c <_uploadMessage>
     34d4:	ee ef       	ldi	r30, 0xFE	; 254
@@ -7782,7 +7782,7 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
     34f2:	ec 01       	movw	r28, r24
     34f4:	60 e0       	ldi	r22, 0x00	; 0
     34f6:	70 e0       	ldi	r23, 0x00	; 0
-    34f8:	81 ee       	ldi	r24, 0xE1	; 225
+    34f8:	82 ee       	ldi	r24, 0xE2	; 226
     34fa:	93 e0       	ldi	r25, 0x03	; 3
     34fc:	bf de       	rcall	.-642    	; 0x327c <_uploadMessage>
     34fe:	ee ef       	ldi	r30, 0xFE	; 254
@@ -7817,7 +7817,7 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
     3536:	39 07       	cpc	r19, r25
     3538:	29 f4       	brne	.+10     	; 0x3544 <lora_driver_setDeviceIdentifier+0x1e>
     353a:	bc 01       	movw	r22, r24
-    353c:	8f e0       	ldi	r24, 0x0F	; 15
+    353c:	80 e1       	ldi	r24, 0x10	; 16
     353e:	94 e0       	ldi	r25, 0x04	; 4
     3540:	6c cf       	rjmp	.-296    	; 0x341a <_uploadMessageRc>
     3542:	08 95       	ret
@@ -7836,7 +7836,7 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
     3558:	39 07       	cpc	r19, r25
     355a:	29 f4       	brne	.+10     	; 0x3566 <lora_driver_setApplicationIdentifier+0x1e>
     355c:	bc 01       	movw	r22, r24
-    355e:	8e e1       	ldi	r24, 0x1E	; 30
+    355e:	8f e1       	ldi	r24, 0x1F	; 31
     3560:	94 e0       	ldi	r25, 0x04	; 4
     3562:	5b cf       	rjmp	.-330    	; 0x341a <_uploadMessageRc>
     3564:	08 95       	ret
@@ -7855,7 +7855,7 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
     357a:	39 07       	cpc	r19, r25
     357c:	29 f4       	brne	.+10     	; 0x3588 <lora_driver_setApplicationKey+0x1e>
     357e:	bc 01       	movw	r22, r24
-    3580:	8d e2       	ldi	r24, 0x2D	; 45
+    3580:	8e e2       	ldi	r24, 0x2E	; 46
     3582:	94 e0       	ldi	r25, 0x04	; 4
     3584:	4a cf       	rjmp	.-364    	; 0x341a <_uploadMessageRc>
     3586:	08 95       	ret
@@ -7865,7 +7865,7 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
 0000358c <lora_driver_saveMac>:
     358c:	60 e0       	ldi	r22, 0x00	; 0
     358e:	70 e0       	ldi	r23, 0x00	; 0
-    3590:	8c e6       	ldi	r24, 0x6C	; 108
+    3590:	8d e6       	ldi	r24, 0x6D	; 109
     3592:	94 e0       	ldi	r25, 0x04	; 4
     3594:	42 cf       	rjmp	.-380    	; 0x341a <_uploadMessageRc>
     3596:	08 95       	ret
@@ -7877,11 +7877,11 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
     359e:	f0 e0       	ldi	r31, 0x00	; 0
     35a0:	ee 0f       	add	r30, r30
     35a2:	ff 1f       	adc	r31, r31
-    35a4:	ea 5b       	subi	r30, 0xBA	; 186
+    35a4:	e9 5b       	subi	r30, 0xB9	; 185
     35a6:	f9 4f       	sbci	r31, 0xF9	; 249
     35a8:	60 81       	ld	r22, Z
     35aa:	71 81       	ldd	r23, Z+1	; 0x01
-    35ac:	85 e7       	ldi	r24, 0x75	; 117
+    35ac:	86 e7       	ldi	r24, 0x76	; 118
     35ae:	94 e0       	ldi	r25, 0x04	; 4
     35b0:	34 df       	rcall	.-408    	; 0x341a <_uploadMessageRc>
     35b2:	81 11       	cpse	r24, r1
@@ -7984,10 +7984,10 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
     3676:	4c 91       	ld	r20, X
     3678:	81 11       	cpse	r24, r1
     367a:	03 c0       	rjmp	.+6      	; 0x3682 <lora_driver_sendUploadMessage+0x98>
-    367c:	8e e7       	ldi	r24, 0x7E	; 126
+    367c:	8f e7       	ldi	r24, 0x7F	; 127
     367e:	94 e0       	ldi	r25, 0x04	; 4
     3680:	02 c0       	rjmp	.+4      	; 0x3686 <lora_driver_sendUploadMessage+0x9c>
-    3682:	80 e8       	ldi	r24, 0x80	; 128
+    3682:	81 e8       	ldi	r24, 0x81	; 129
     3684:	94 e0       	ldi	r25, 0x04	; 4
     3686:	2f e8       	ldi	r18, 0x8F	; 143
     3688:	35 e1       	ldi	r19, 0x15	; 21
@@ -7997,7 +7997,7 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
     3690:	4f 93       	push	r20
     3692:	9f 93       	push	r25
     3694:	8f 93       	push	r24
-    3696:	84 e8       	ldi	r24, 0x84	; 132
+    3696:	85 e8       	ldi	r24, 0x85	; 133
     3698:	94 e0       	ldi	r25, 0x04	; 4
     369a:	9f 93       	push	r25
     369c:	8f 93       	push	r24
@@ -8107,12 +8107,12 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
 00003780 <lora_driver_setAdaptiveDataRate>:
     3780:	81 30       	cpi	r24, 0x01	; 1
     3782:	19 f0       	breq	.+6      	; 0x378a <lora_driver_setAdaptiveDataRate+0xa>
-    3784:	64 e9       	ldi	r22, 0x94	; 148
+    3784:	65 e9       	ldi	r22, 0x95	; 149
     3786:	74 e0       	ldi	r23, 0x04	; 4
     3788:	02 c0       	rjmp	.+4      	; 0x378e <lora_driver_setAdaptiveDataRate+0xe>
-    378a:	6d e6       	ldi	r22, 0x6D	; 109
+    378a:	6e e6       	ldi	r22, 0x6E	; 110
     378c:	75 e0       	ldi	r23, 0x05	; 5
-    378e:	88 e9       	ldi	r24, 0x98	; 152
+    378e:	89 e9       	ldi	r24, 0x99	; 153
     3790:	94 e0       	ldi	r25, 0x04	; 4
     3792:	43 ce       	rjmp	.-890    	; 0x341a <_uploadMessageRc>
     3794:	08 95       	ret
@@ -8120,7 +8120,7 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
 00003796 <lora_driver_setReceiveDelay>:
     3796:	9f 93       	push	r25
     3798:	8f 93       	push	r24
-    379a:	89 ec       	ldi	r24, 0xC9	; 201
+    379a:	8a ec       	ldi	r24, 0xCA	; 202
     379c:	94 e0       	ldi	r25, 0x04	; 4
     379e:	9f 93       	push	r25
     37a0:	8f 93       	push	r24
@@ -8169,9 +8169,9 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
     37f4:	de bf       	out	0x3e, r29	; 62
     37f6:	0f be       	out	0x3f, r0	; 63
     37f8:	cd bf       	out	0x3d, r28	; 61
-    37fa:	66 ef       	ldi	r22, 0xF6	; 246
+    37fa:	67 ef       	ldi	r22, 0xF7	; 247
     37fc:	74 e0       	ldi	r23, 0x04	; 4
-    37fe:	82 e0       	ldi	r24, 0x02	; 2
+    37fe:	83 e0       	ldi	r24, 0x03	; 3
     3800:	95 e0       	ldi	r25, 0x05	; 5
     3802:	3c dd       	rcall	.-1416   	; 0x327c <_uploadMessage>
     3804:	95 dd       	rcall	.-1238   	; 0x3330 <_reply2ReturnCode>
@@ -8193,7 +8193,7 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
     3824:	e1 2c       	mov	r14, r1
     3826:	f1 2c       	mov	r15, r1
     3828:	0f 2e       	mov	r0, r31
-    382a:	fe e0       	ldi	r31, 0x0E	; 14
+    382a:	ff e0       	ldi	r31, 0x0F	; 15
     382c:	af 2e       	mov	r10, r31
     382e:	f5 e0       	ldi	r31, 0x05	; 5
     3830:	bf 2e       	mov	r11, r31
@@ -8201,19 +8201,19 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
     3834:	01 ed       	ldi	r16, 0xD1	; 209
     3836:	15 e1       	ldi	r17, 0x15	; 21
     3838:	0f 2e       	mov	r0, r31
-    383a:	f7 e2       	ldi	r31, 0x27	; 39
+    383a:	f8 e2       	ldi	r31, 0x28	; 40
     383c:	4f 2e       	mov	r4, r31
     383e:	f5 e0       	ldi	r31, 0x05	; 5
     3840:	5f 2e       	mov	r5, r31
     3842:	f0 2d       	mov	r31, r0
     3844:	0f 2e       	mov	r0, r31
-    3846:	fe e3       	ldi	r31, 0x3E	; 62
+    3846:	ff e3       	ldi	r31, 0x3F	; 63
     3848:	8f 2e       	mov	r8, r31
     384a:	f5 e0       	ldi	r31, 0x05	; 5
     384c:	9f 2e       	mov	r9, r31
     384e:	f0 2d       	mov	r31, r0
     3850:	0f 2e       	mov	r0, r31
-    3852:	f8 e5       	ldi	r31, 0x58	; 88
+    3852:	f9 e5       	ldi	r31, 0x59	; 89
     3854:	6f 2e       	mov	r6, r31
     3856:	f5 e0       	ldi	r31, 0x05	; 5
     3858:	7f 2e       	mov	r7, r31
@@ -8324,7 +8324,7 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
     3932:	94 cf       	rjmp	.-216    	; 0x385c <lora_driver_configureToEu868+0x96>
     3934:	60 e0       	ldi	r22, 0x00	; 0
     3936:	70 e0       	ldi	r23, 0x00	; 0
-    3938:	80 e7       	ldi	r24, 0x70	; 112
+    3938:	81 e7       	ldi	r24, 0x71	; 113
     393a:	95 e0       	ldi	r25, 0x05	; 5
     393c:	9f dc       	rcall	.-1730   	; 0x327c <_uploadMessage>
     393e:	f8 dc       	rcall	.-1552   	; 0x3330 <_reply2ReturnCode>
@@ -8332,7 +8332,7 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
     3942:	06 c0       	rjmp	.+12     	; 0x3950 <lora_driver_configureToEu868+0x18a>
     3944:	60 e0       	ldi	r22, 0x00	; 0
     3946:	70 e0       	ldi	r23, 0x00	; 0
-    3948:	81 e8       	ldi	r24, 0x81	; 129
+    3948:	82 e8       	ldi	r24, 0x82	; 130
     394a:	95 e0       	ldi	r25, 0x05	; 5
     394c:	97 dc       	rcall	.-1746   	; 0x327c <_uploadMessage>
     394e:	f0 dc       	rcall	.-1568   	; 0x3330 <_reply2ReturnCode>
@@ -8405,7 +8405,7 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
     39cc:	8e 0f       	add	r24, r30
     39ce:	9f 1f       	adc	r25, r31
     39d0:	fc 01       	movw	r30, r24
-    39d2:	e6 5b       	subi	r30, 0xB6	; 182
+    39d2:	e5 5b       	subi	r30, 0xB5	; 181
     39d4:	f9 4f       	sbci	r31, 0xF9	; 249
     39d6:	81 81       	ldd	r24, Z+1	; 0x01
     39d8:	92 81       	ldd	r25, Z+2	; 0x02
@@ -9811,7 +9811,7 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
     44b4:	30 e0       	ldi	r19, 0x00	; 0
     44b6:	40 ec       	ldi	r20, 0xC0	; 192
     44b8:	50 e0       	ldi	r21, 0x00	; 0
-    44ba:	6d e7       	ldi	r22, 0x7D	; 125
+    44ba:	6e e7       	ldi	r22, 0x7E	; 126
     44bc:	76 e0       	ldi	r23, 0x06	; 6
     44be:	86 ed       	ldi	r24, 0xD6	; 214
     44c0:	91 e2       	ldi	r25, 0x21	; 33

@@ -1,35 +1,43 @@
-/*
-* loraWANHandler.c
-*
-* Created: 12/04/2019 10:09:05
-*  Author: IHA
-*/
+#include "ATMEGA_FreeRTOS.h"
 #include <stddef.h>
 #include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include "message_buffer.h"
 
-#include <ATMEGA_FreeRTOS.h>
+#include "lora_driver.h" 
+#include "UpLinkHandler.h"
 
-#include <lora_driver.h>
+#include "SensorDataPackageHandler.h"
+
+#define LORA_appEUI "49B360EEE16A8D4C"
+#define LORA_appKEY "E0597BF885F1F18CF896B91F8E211814" 
 #include <status_leds.h>
 
-// Parameters for OTAA join - You have got these in a mail from IHA
-#define LORA_appEUI "XXXXXXXXXXXXXXX"
-#define LORA_appKEY "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-
-void lora_handler_task( void *pvParameters );
-
 static lora_driver_payload_t _uplink_payload;
+static MessageBufferHandle_t messageBuffer;
 
-void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
-{
-	xTaskCreate(
-	lora_handler_task
-	,  "LRHand"  // A name just for humans
-	,  configMINIMAL_STACK_SIZE+200  // This stack size can be checked & adjusted by reading the Stack Highwater
-	,  NULL
-	,  lora_handler_task_priority  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
-	,  NULL );
+
+void upLinkHandler_StartTask(void* mBuffer){
+	for(;;)
+	{
+		lora_handler_task((MessageBufferHandle_t)mBuffer);
+	}
 }
+
+void create(UBaseType_t priority, MessageBufferHandle_t mBuffer)
+{
+	messageBuffer = mBuffer;
+	
+	xTaskCreate(
+	upLinkHandler_StartTask,
+	"LoraUpLink",
+	configMINIMAL_STACK_SIZE+200,
+	(void*)mBuffer,
+	priority,
+	NULL );
+}
+
 
 static void _lora_setup(void)
 {
@@ -104,8 +112,9 @@ static void _lora_setup(void)
 	}
 }
 
-/*-----------------------------------------------------------*/
-void lora_handler_task( void *pvParameters )
+
+
+void lora_handler_task(MessageBufferHandle_t messageBuffer)
 {
 	// Hardware reset of LoRaWAN transceiver
 	lora_driver_resetRn2483(1);
@@ -124,15 +133,20 @@ void lora_handler_task( void *pvParameters )
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // Upload message every 5 minutes (300000 ms)
 	xLastWakeTime = xTaskGetTickCount();
+
 	
 	for(;;)
 	{
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 
-		// Some dummy payload
-		uint16_t hum = 12345; // Dummy humidity
-		int16_t temp = 675; // Dummy temp
-		uint16_t co2_ppm = 1050; // Dummy CO2
+		//Get measured humidity
+		uint16_t hum = getLoRaPayload(1);
+		
+		//Get measured temperature 
+		int16_t temp = getLoRaPayload(2);
+		
+		//Get measured co2
+		uint16_t co2_ppm = getLoRaPayload(3);
 
 		_uplink_payload.bytes[0] = hum >> 8;
 		_uplink_payload.bytes[1] = hum & 0xFF;
@@ -140,8 +154,14 @@ void lora_handler_task( void *pvParameters )
 		_uplink_payload.bytes[3] = temp & 0xFF;
 		_uplink_payload.bytes[4] = co2_ppm >> 8;
 		_uplink_payload.bytes[5] = co2_ppm & 0xFF;
+		
+
+		
+		
 
 		status_leds_shortPuls(led_ST4);  // OPTIONAL
 		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
 	}
 }
+	
+

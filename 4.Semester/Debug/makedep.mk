@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
-ConfigurationImpl.c
+DownLinkHandler.c
 
 FreeRTOS\FreeRTOSTraceDriver\FreeRTOSTraceDriver.c
 
@@ -26,7 +26,9 @@ FreeRTOS\src\timers.c
 
 FreeRTOS\src\variantHooks.c
 
-SensorDataHandler.c
+SensorDataPackageHandler.c
+
+UpLinkHandler.c
 
 main.c
 
