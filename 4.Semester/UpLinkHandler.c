@@ -21,7 +21,7 @@ static MessageBufferHandle_t messageBuffer;
 void upLinkHandler_StartTask(void* mBuffer){
 	for(;;)
 	{
-		puts("Lora");
+	
 		lora_Handler_task();
 	}
 }
@@ -120,7 +120,6 @@ static void uplink_lora_setup(void)
 
 void lora_Handler_task()
 {
-	puts("Start");
 	// Hardware reset of LoRaWAN transceiver
 	lora_driver_resetRn2483(1);
 	vTaskDelay(2UL);
@@ -129,14 +128,12 @@ void lora_Handler_task()
 	vTaskDelay(150UL);
 	puts("Start1");
 	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
-puts("Start2");
 	uplink_lora_setup();
-puts("Start3");
 	_uplink_payload.len = 6;
 	_uplink_payload.portNo = 2;
 
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // Upload message every 5 minutes (300000 ms)
+	const TickType_t xFrequency = pdMS_TO_TICKS(30000UL); // Upload message every 5 minutes (300000 ms)
 	xLastWakeTime = xTaskGetTickCount();
 	
 	size_t xBytesSent;

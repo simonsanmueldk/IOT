@@ -45,7 +45,6 @@ void Temp_Humidty_sensor_create(EventGroupHandle_t event1,EventGroupHandle_t eve
 
 uint16_t get_temperature_data()
 {
-	puts("Task Temperature data ");
 		return (uint16_t)temperature;
 }
 
@@ -80,12 +79,12 @@ void tempHum_init() {
 void tempHum_getDataFromTempHumSensorTask( void *pvParameters )
 {
 	(void)pvParameters;
-	puts("Task1");
+	
 	EventBits_t event_measure;
 	
 	for(;;)
 	{
-		puts("Task2");
+		
 		//Wait for Event bits to be set in Group
 		event_measure = xEventGroupWaitBits(
 		_meassureEventGroup,
@@ -97,7 +96,7 @@ void tempHum_getDataFromTempHumSensorTask( void *pvParameters )
 		
 		if ((event_measure & TEMPERATURE_HUMIDITY_BIT) ==TEMPERATURE_HUMIDITY_BIT)
 		{
-			puts("Task3");
+			
 			vTaskDelay( pdMS_TO_TICKS(100UL));
 		
 		if (HIH8120_OK != hih8120_wakeup())
@@ -111,10 +110,10 @@ void tempHum_getDataFromTempHumSensorTask( void *pvParameters )
 		}
 		hih8120_measure();
 		vTaskDelay(pdMS_TO_TICKS(50UL));
-		puts("Task5");
+		
 		if (HIH8120_OK == hih8120_measure() )
 		{
-			puts("Task6");
+		
 			vTaskDelay(pdMS_TO_TICKS(100UL));
 			humidity =  hih8120_getHumidity();
 			temperature = hih8120_getTemperature();
@@ -125,7 +124,7 @@ void tempHum_getDataFromTempHumSensorTask( void *pvParameters )
 		else{
 			puts("hahah");
 		}
-		puts("Task4");
+		
 		}
 	}
 

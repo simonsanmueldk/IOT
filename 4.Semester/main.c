@@ -129,33 +129,26 @@ void Temperature_Humidity_Task( void *pvParameters )
 /*-----------------------------------------------------------*/
 void Application_Task(void* pvParameters)
 {
-	puts("TASK a");
 	lora_driver_payload_t payload;
 	EventBits_t dataReadyEventBits;
 	
 	
 	for (;;)
 	{
-		puts("TASK b");
 		xEventGroupSetBits(measureEventGroup,ALL_READY_BITS);
-		puts("TASK c");
 		dataReadyEventBits=xEventGroupWaitBits(dataReadyEventGroup,ALL_MEASURE_BITS,pdTRUE,pdFALSE,portMAX_DELAY);
-		puts("TASK d");
 		if ((dataReadyEventBits & ALL_MEASURE_BITS  )==ALL_MEASURE_BITS)
 		{
-			puts("TASK e");
 			setCO2Ppm(1050);
 			setTemperatureData(get_temperature_data());
-			printf("%d",get_temperature_data());
+			printf("Task data %d",get_temperature_data());
 			setHumidityData(get_humidity_data());
-			printf("%d",get_humidity_data());
+			printf(" Task data %d",get_humidity_data());
 		}
-		puts("task f");
+
 		payload=getLoRaPayload((uint8_t)2);
 		vTaskDelay(pdMS_TO_TICKS(50UL));
-		puts("task FFFF");
 		xMessageBufferSend(xMessageBuffer,(void*)&payload,sizeof(payload),portMAX_DELAY);
-		puts("task GGGGG");
 	}
 	
 	
