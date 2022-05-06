@@ -21,11 +21,12 @@ static MessageBufferHandle_t messageBuffer;
 void upLinkHandler_StartTask(void* mBuffer){
 	for(;;)
 	{
-		lora_handler_task((MessageBufferHandle_t)mBuffer);
+		puts("Lora");
+		lora_Handler_task();
 	}
 }
 
-void create(UBaseType_t priority, MessageBufferHandle_t mBuffer)
+void upLink_create(UBaseType_t priority, MessageBufferHandle_t mBuffer)
 {
 	messageBuffer = mBuffer;
 	
@@ -39,8 +40,8 @@ void create(UBaseType_t priority, MessageBufferHandle_t mBuffer)
 }
 
 
-static void _lora_setup(void)
-{
+static void uplink_lora_setup(void)
+{	puts("Try to join");
 	char _out_buf[20];
 	lora_driver_returnCode_t rc;
 	status_leds_slowBlink(led_ST2); // OPTIONAL: Led the green led blink slowly while we are setting up LoRa
@@ -50,14 +51,14 @@ static void _lora_setup(void)
 	
 	// Configure to EU868 LoRaWAN standards
 	printf("Configure to EU868 >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_configureToEu868()));
-
+	puts("Try to join1");
 	// Get the transceivers HW EUI
 	rc = lora_driver_getRn2483Hweui(_out_buf);
 	printf("Get HWEUI >%s<: %s\n",lora_driver_mapReturnCodeToText(rc), _out_buf);
 
 	// Set the HWEUI as DevEUI in the LoRaWAN software stack in the transceiver
 	printf("Set DevEUI: %s >%s<\n", _out_buf, lora_driver_mapReturnCodeToText(lora_driver_setDeviceIdentifier(_out_buf)));
-
+	puts("Try to join2");
 	// Set Over The Air Activation parameters to be ready to join the LoRaWAN
 	printf("Set OTAA Identity appEUI:%s appKEY:%s devEUI:%s >%s<\n", LORA_appEUI, LORA_appKEY, _out_buf, lora_driver_mapReturnCodeToText(lora_driver_setOtaaIdentity(LORA_appEUI,LORA_appKEY,_out_buf)));
 
@@ -66,12 +67,14 @@ static void _lora_setup(void)
 
 	// Enable Adaptive Data Rate
 	printf("Set Adaptive Data Rate: ON >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_setAdaptiveDataRate(LORA_ON)));
-
+	puts("Try to join3");
 	// Set receiver window1 delay to 500 ms - this is needed if down-link messages will be used
 	printf("Set Receiver Delay: %d ms >%s<\n", 500, lora_driver_mapReturnCodeToText(lora_driver_setReceiveDelay(500)));
 
 	// Join the LoRaWAN
 	uint8_t maxJoinTriesLeft = 10;
+	
+	puts("Try to join");
 	
 	do {
 		rc = lora_driver_join(LORA_OTAA);
@@ -98,6 +101,7 @@ static void _lora_setup(void)
 	}
 	else
 	{
+		puts("went wrong");
 		// Something went wrong
 		// Turn off the green led
 		status_leds_ledOff(led_ST2); // OPTIONAL
@@ -114,20 +118,20 @@ static void _lora_setup(void)
 
 
 
-void lora_Handler_task(MessageBufferHandle_t messageBuffer)
+void lora_Handler_task()
 {
 	puts("Start");
 	// Hardware reset of LoRaWAN transceiver
 	lora_driver_resetRn2483(1);
-	vTaskDelay(2);
+	vTaskDelay(2UL);
 	lora_driver_resetRn2483(0);
 	// Give it a chance to wakeup
-	vTaskDelay(150);
-
+	vTaskDelay(150UL);
+	puts("Start1");
 	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
-
-	_lora_setup();
-
+puts("Start2");
+	uplink_lora_setup();
+puts("Start3");
 	_uplink_payload.len = 6;
 	_uplink_payload.portNo = 2;
 
@@ -137,13 +141,14 @@ void lora_Handler_task(MessageBufferHandle_t messageBuffer)
 	
 	size_t xBytesSent;
 	
+	puts("Waiting");
 	xBytesSent = xMessageBufferReceive(
 	messageBuffer,
 	(void*) &_uplink_payload,  			// Object to be send
 	sizeof(lora_driver_payload_t),	// Size of object
 	portMAX_DELAY);			// Block until space in buffer
 
-	
+	puts("Received");
 	for(;;)
 	{
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
