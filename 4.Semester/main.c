@@ -27,6 +27,7 @@
 #include "TempHumSensor.h"
 #include "message_buffer.h"
 #include "UpLinkHandler.h"
+#include "CO2_Sensor.h"
 
 
 // define two Tasks
@@ -57,6 +58,7 @@ void create_tasks_and_semaphores(void)
 {
 	xMessageBuffer = xMessageBufferCreate( xMessageBufferSizeBytes );
 	
+	CO2_Sensor_Task();
 	SensorDataPackage_create();
 	measureEventGroup=xEventGroupCreate();
 	dataReadyEventGroup=xEventGroupCreate();

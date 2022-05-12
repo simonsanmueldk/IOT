@@ -2,6 +2,8 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+CO2_SensorImpl.c
+
 ConfigurationImpl.c
 
 DownLinkHandler.c
