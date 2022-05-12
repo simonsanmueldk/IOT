@@ -32,18 +32,18 @@ uint16_t *co2_data;
 
 void myCo2CallBack(uint16_t *ppm){
 	co2_data = ppm;
+	//printf(" CO2 data %d",co2_data);
 };
 
 
 uint16_t get_CO2_data(){
+	
 	printf(" CO2 data %d",co2_data);
 	return co2_data;
 }
 
 
 void CO2_taskRun() {
-	vTaskStartScheduler();
-
 	EventBits_t event;
 	event = xEventGroupWaitBits(
 	meassureEventGroup,
@@ -63,27 +63,37 @@ void CO2_taskRun() {
 	
 	vTaskDelay(pdMS_TO_TICKS(500UL));
 	
-	rc = mh_z19_getCo2Ppm(ppm);
+	puts("Hello");
 	
-	if (rc != MHZ19_OK)
+	
+	mh_z19_returnCode_t tc = mh_z19_getCo2Ppm(ppm);
+	
+	printf("Value: %d",ppm);
+	
+	if (tc != MHZ19_OK)
 	{
 		printf("cant get co2 data");
 	}
 	
-	myCo2CallBack(ppm);
+	
+	//myCo2CallBack(ppm);
+	mh_z19_injectCallBack(myCo2CallBack);
+	puts("CALLLBACKFINISHED");
+	
 	get_CO2_data();
+
 	
 }
 
 
-void CO2_Sensor_Task(){
-	
+void CO2_Sensor_Task(void *pvParameters){
+	puts("CO2");
 	xEventGroupSetBits(dataReadyEventGroup, CO2_READY_BIT);
 	
-	xFrequency = 5000/portTICK_PERIOD_MS;
+	xFrequency = 3000/portTICK_PERIOD_MS;
 	
 	xLastWakeTime = xTaskGetTickCount();
-
+	puts("CO2 Second");
 
 	for(;;)
 	{

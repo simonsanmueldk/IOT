@@ -15,7 +15,7 @@
 #include "SensorData.h"
 #include <stdio_driver.h>
 #include <serial.h>
-
+#include <mh_z19.h>
 #include <event_groups.h>
 
 
@@ -33,6 +33,7 @@
 // define two Tasks
 void Temperature_Humidity_Task(void *pvParameters);
 void Application_Task(void *pvParameters );
+void CO2_Task(void *pvParameters );
 
 //Bit for set
 #define ALL_MEASURE_BITS (1<<0)
@@ -58,7 +59,7 @@ void create_tasks_and_semaphores(void)
 {
 	xMessageBuffer = xMessageBufferCreate( xMessageBufferSizeBytes );
 	
-	CO2_Sensor_Task();
+	
 	SensorDataPackage_create();
 	measureEventGroup=xEventGroupCreate();
 	dataReadyEventGroup=xEventGroupCreate();
@@ -86,6 +87,14 @@ void create_tasks_and_semaphores(void)
 xTaskCreate(
 	Temperature_Humidity_Task
 	,  "Temperature_Humidity"  // A name just for humans
+	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
+	,  NULL
+	,  1 // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+	,  NULL );
+	
+xTaskCreate(
+	CO2_Task
+	,  "CO2 Task"  // A name just for humans
 	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
 	,  NULL
 	,  1 // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
@@ -128,6 +137,14 @@ void Temperature_Humidity_Task( void *pvParameters )
 		
 	
 }
+
+
+void CO2_Task( void *pvParameters )
+{
+	CO2_Sensor_Task(pvParameters);
+
+}
+
 /*-----------------------------------------------------------*/
 void Application_Task(void* pvParameters)
 {
@@ -167,6 +184,7 @@ void initialiseSystem()
 	// Let's create some tasks
 	
     tempHum_init();
+	mh_z19_initialise(ser_USART3);
 	puts("Task0");
 	create_tasks_and_semaphores();
        // Driver initialised OK

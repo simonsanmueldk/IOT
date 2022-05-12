@@ -19,4 +19,4 @@ typedef enum CO2ReturnCode{
 void myCo2CallBack(uint16_t *ppm);
 uint16_t get_CO2_data();
 void CO2_taskRun(void);
-void CO2_Sensor_Task();
+void CO2_Sensor_Task(void *pvParameters);
