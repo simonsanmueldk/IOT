@@ -141,9 +141,9 @@ void Application_Task(void* pvParameters)
 		{
 			setCO2Ppm(1050);
 			setTemperatureData(get_temperature_data());
-			printf("Task data %d",get_temperature_data());
+			printf("Temperature data ---> %d ",get_temperature_data());
 			setHumidityData(get_humidity_data());
-			printf(" Task data %d",get_humidity_data());
+			printf(" Humidity data ----> %d ",get_humidity_data());
 		}
 
 		payload=getLoRaPayload((uint8_t)2);
