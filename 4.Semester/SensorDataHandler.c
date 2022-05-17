@@ -21,9 +21,7 @@ SensorDataPackage_t SensorDataPackage_create(){
 	if (NULL == packet){
 		return NULL;
 	}
-	packet->co2Ppm=0;
-	packet->humidityData=0;
-	packet->temperatureData=0;
+	
 	
 	return packet;
 }
@@ -45,9 +43,6 @@ lora_driver_payload_t getLoRaPayload(uint8_t portNo){
 
 	 payload.len = 6;
 	 payload.portNo = portNo;
-	
-	
-
 	payload.bytes[0]=(uint8_t)(packet->co2Ppm>>8);
 	payload.bytes[1] =(uint8_t) (packet->co2Ppm & 0xFF);
 	payload.bytes[2]=(uint8_t)(packet->temperatureData>>8);

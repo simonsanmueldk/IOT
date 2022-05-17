@@ -6,9 +6,10 @@
  */ 
 #pragma once
 
-#include "ATMEGA_FreeRTOS.h"
+#include "event_groups.h"
 #include <stdint.h>
 #include <stdio.h>
+
 
 
 void tempHum_taskRun(void);

@@ -36,15 +36,16 @@ void Application_Task(void *pvParameters );
 void CO2_Task(void *pvParameters );
 
 //Bit for set
-#define ALL_MEASURE_BITS (1<<0)
-//Bit for wait
-#define ALL_READY_BITS (1<<1)
+#define HUMIDITY_TEMPERATURE_BIT (1<<0)
+#define CO2_BIT (1<<1)
 
 
 
 
 // define semaphore handle
-SemaphoreHandle_t xTestSemaphore;
+SemaphoreHandle_t xTemperatureHumiditySemaphore;
+SemaphoreHandle_t xUpLinkSemaphore;
+SemaphoreHandle_t xCO2Semaphore;
 
 // Prototype for LoRaWAN handler
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority);
@@ -64,17 +65,19 @@ void create_tasks_and_semaphores(void)
 	measureEventGroup=xEventGroupCreate();
 	dataReadyEventGroup=xEventGroupCreate();
 	Temp_Humidty_sensor_create(measureEventGroup,dataReadyEventGroup);
+	CO2_sensor_create(measureEventGroup,dataReadyEventGroup);
 	// Semaphores are useful to stop a Task proceeding, where it should be paused to wait,
 	// because it is sharing a resource, such as the Serial port.
 	// Semaphores should only be used whilst the scheduler is running, but we can set it up here.
-	if ( xTestSemaphore == NULL )  // Check to confirm that the Semaphore has not already been created.
+	if ( xUpLinkSemaphore == NULL )  // Check to confirm that the Semaphore has not already been created.
 	{
-		xTestSemaphore = xSemaphoreCreateMutex();  // Create a mutex semaphore.
-		if ( ( xTestSemaphore ) != NULL )
+		xUpLinkSemaphore = xSemaphoreCreateMutex(); 
+		if ( ( xUpLinkSemaphore ) != NULL )
 		{
-			xSemaphoreGive( ( xTestSemaphore ) );  // Make the mutex available for use, by initially "Giving" the Semaphore.
+			xSemaphoreGive( ( xUpLinkSemaphore ) ); 
 		}
 	}
+	
 
 	xTaskCreate(
 	Application_Task
@@ -105,44 +108,20 @@ xTaskCreate(
 }
 
 /*-----------------------------------------------------------*/
-//void task1( void *pvParameters )
-//{
-	//TickType_t xLastWakeTime;
-	//const TickType_t xFrequency = 500/portTICK_PERIOD_MS; // 500 ms
-//
-	//// Initialise the xLastWakeTime variable with the current time.
-	//xLastWakeTime = xTaskGetTickCount();
-//
-	//for(;;)
-	//{
-		//xTaskDelayUntil( &xLastWakeTime, xFrequency );
-		//puts("Task1"); // stdio functions are not reentrant - Should normally be protected by MUTEX
-		//PORTA ^= _BV(PA0);
-	//}
-//}
-//
-///*-----------------------------------------------------------*/
-
-
 void Temperature_Humidity_Task( void *pvParameters )
 {
-	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 500/portTICK_PERIOD_MS; // 500 ms
-	//
-	//// Initialise the xLastWakeTime variable with the current time.
-	xLastWakeTime = xTaskGetTickCount();
-		
-		tempHum_getDataFromTempHumSensorTask(pvParameters);
-		
-		
+
+           tempHum_getDataFromTempHumSensorTask(pvParameters);
+        
+	
 	
 }
 
 
 void CO2_Task( void *pvParameters )
-{
-	CO2_Sensor_Task(pvParameters);
-
+{	
+			CO2_Sensor_Task(pvParameters);
+	
 }
 
 /*-----------------------------------------------------------*/
@@ -150,24 +129,33 @@ void Application_Task(void* pvParameters)
 {
 	lora_driver_payload_t payload;
 	EventBits_t dataReadyEventBits;
-	
+		TickType_t xLastWakeTime;
+		const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // Upload message every 5 minutes (300000 ms)
+		xLastWakeTime = xTaskGetTickCount();
+		
 	
 	for (;;)
 	{
-		xEventGroupSetBits(measureEventGroup,ALL_READY_BITS);
-		dataReadyEventBits=xEventGroupWaitBits(dataReadyEventGroup,ALL_MEASURE_BITS,pdTRUE,pdFALSE,portMAX_DELAY);
-		if ((dataReadyEventBits & ALL_MEASURE_BITS  )==ALL_MEASURE_BITS)
+		
+		xEventGroupSetBits(measureEventGroup,CO2_BIT | HUMIDITY_TEMPERATURE_BIT);
+		dataReadyEventBits=xEventGroupWaitBits(dataReadyEventGroup,CO2_BIT | HUMIDITY_TEMPERATURE_BIT,pdTRUE,pdTRUE,portMAX_DELAY);
+		if ((dataReadyEventBits &(CO2_BIT | HUMIDITY_TEMPERATURE_BIT)  )== (CO2_BIT | HUMIDITY_TEMPERATURE_BIT))
 		{
-			setCO2Ppm(1050);
+		
 			setTemperatureData(get_temperature_data());
-			printf("Task data %d",get_temperature_data());
+			printf("Temperature data ---> %d ",get_temperature_data());
 			setHumidityData(get_humidity_data());
-			printf(" Task data %d",get_humidity_data());
+			printf(" Humidity data ----> %d ",get_humidity_data());
+			setCO2Ppm(get_CO2_data());
+			printf("CO2 data ---> %i ",get_CO2_data());
+			
+			payload=getLoRaPayload((uint8_t)2);
+			vTaskDelay(pdMS_TO_TICKS(50UL));
+			xMessageBufferSend(xMessageBuffer,(void*)&payload,sizeof(payload),portMAX_DELAY);
+			xTaskDelayUntil( &xLastWakeTime, xFrequency );
 		}
 
-		payload=getLoRaPayload((uint8_t)2);
-		vTaskDelay(pdMS_TO_TICKS(50UL));
-		xMessageBufferSend(xMessageBuffer,(void*)&payload,sizeof(payload),portMAX_DELAY);
+		
 	}
 	
 	
@@ -183,9 +171,9 @@ void initialiseSystem()
 	stdio_initialise(ser_USART0);
 	// Let's create some tasks
 	
+
     tempHum_init();
 	mh_z19_initialise(ser_USART3);
-	puts("Task0");
 	create_tasks_and_semaphores();
        // Driver initialised OK
        // Always check what hih8120_initialise() returns
@@ -198,7 +186,10 @@ void initialiseSystem()
 	lora_driver_initialise(1, NULL);
 	// Create LoRaWAN task and start it up with priority 3
 	//lora_handler_initialise(3);
-upLink_create(4,xMessageBuffer);
+	
+		upLink_create(4,xMessageBuffer);
+		
+	
 }
 
 /*-----------------------------------------------------------*/
