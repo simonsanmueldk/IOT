@@ -11,12 +11,22 @@
 #include <ATMEGA_FreeRTOS.h>
 #include <avr/io.h>
 
-#include "event_groups.h"
 #include "TempHumSensor.h"
 
 /* Event Groups */
  EventGroupHandle_t _meassureEventGroup ;
  EventGroupHandle_t _dataReadyEventGroup;
+ 
+ //Bit for set
+ #define TEMPERATURE_HUMIDITY_READY_BIT (1 << 1)
+ //Bit for wait
+ #define TEMPERATURE_HUMIDITY_BIT (1 << 0)
+
+
+
+ /* Tick type */
+ TickType_t xLastWakeTime;
+ TickType_t xFrequency;
 
 float temperature = 0.0;
 float humidity = 0.0;
@@ -55,16 +65,6 @@ uint16_t get_humidity_data()
 }
 
 
-//Bit for set
-#define TEMPERATURE_HUMIDITY_READY_BIT (1 << 0)
-//Bit for wait
-#define TEMPERATURE_HUMIDITY_BIT (1 << 1)
-
-
-
-/* Tick type */
-TickType_t xLastWakeTime;
-TickType_t xFrequency;
 
 /* Task to run for the sensors to work */
 void tempHum_init() {
@@ -92,7 +92,6 @@ void tempHum_getDataFromTempHumSensorTask( void *pvParameters )
 		pdTRUE,
 		pdTRUE,
 		portMAX_DELAY);
-		 
 		
 		if ((event_measure & TEMPERATURE_HUMIDITY_BIT) ==TEMPERATURE_HUMIDITY_BIT)
 		{
@@ -109,6 +108,7 @@ void tempHum_getDataFromTempHumSensorTask( void *pvParameters )
 			}
 		}
 		hih8120_measure();
+	
 		vTaskDelay(pdMS_TO_TICKS(50UL));
 		
 		if (HIH8120_OK == hih8120_measure() )
@@ -117,14 +117,11 @@ void tempHum_getDataFromTempHumSensorTask( void *pvParameters )
 			vTaskDelay(pdMS_TO_TICKS(100UL));
 			humidity =  hih8120_getHumidity();
 			temperature = hih8120_getTemperature();
+			printf("<<Temperature Humidity task set>>");
 			xEventGroupSetBits(_dataReadyEventGroup, TEMPERATURE_HUMIDITY_READY_BIT);
 			
 		}
 	}	
-		else{
-			puts("hahah");
-		}
-		
 		}
 	}
 
