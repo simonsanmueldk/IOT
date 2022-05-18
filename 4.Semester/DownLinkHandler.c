@@ -32,27 +32,27 @@ void lora_DownLinkHandler_create(UBaseType_t priority, MessageBufferHandle_t mes
 
 void lora_DownLinkHandler_task(MessageBufferHandle_t messageBuffer)
 {
-	
+	puts("START");
 	xMessageBufferReceive(
 	messageBuffer,
 	(void*) &_downlink_payload,
 	sizeof(lora_driver_payload_t),
 	portMAX_DELAY);
-	
+			puts("BeforeIF");
 			if (_downlink_payload.len == 8)
 			{				
-				uint16_t minHumidity = _downlink_payload.bytes[0] << 8; 
-				uint16_t minHumidity = _downlink_payload.bytes[1] & 0xFF;
+				uint16_t minHumidity = (_downlink_payload.bytes[0] << 8) || (_downlink_payload.bytes[1]);
+				printf("MINHumidity %d", minHumidity);
 				
-				uint16_t minTemperature = _downlink_payload.bytes[2] << 8;
-				uint16_t minTemperature = _downlink_payload.bytes[3] & 0xFF;
+				uint16_t minTemperature = (_downlink_payload.bytes[2] << 8) || (_downlink_payload.bytes[3]);
+				printf("MINTemperature %d", minTemperature);
 				
-				uint16_t maxHumidity = _downlink_payload.bytes[4] << 8;
-				uint16_t maxHumidity = _downlink_payload.bytes[5] & 0xFF;
+				uint16_t maxHumidity = (_downlink_payload.bytes[4] << 8) || (_downlink_payload.bytes[5]);
+				printf("MAXHumidity %d", maxHumidity);
 				
-				uint16_t maxTemperature = _downlink_payload.bytes[6] << 8;
-				uint16_t maxTemperature = _downlink_payload.bytes[7] & 0xFF;
-			
+				uint16_t maxTemperature = (_downlink_payload.bytes[6] << 8) || (_downlink_payload.bytes[7]);
+				printf("MAXTemperature %d", maxTemperature);
+				
 				Configuration_SetMinTemperature(minTemperature);
 				Configuration_SetMinHumidity(minHumidity);
 				Configuration_SetMaxTemperature(maxTemperature);
