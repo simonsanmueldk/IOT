@@ -32,6 +32,10 @@ void lora_DownLinkHandler_create(UBaseType_t priority, MessageBufferHandle_t mes
 
 void lora_DownLinkHandler_task(MessageBufferHandle_t messageBuffer)
 {
+<<<<<<< HEAD
+=======
+
+>>>>>>> dc7eee9fd033450f69e862f7c94c9c61883246b2
 	puts("START");
 	xMessageBufferReceive(
 	messageBuffer,
