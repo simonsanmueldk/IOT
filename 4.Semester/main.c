@@ -28,6 +28,7 @@
 #include "message_buffer.h"
 #include "UpLinkHandler.h"
 #include "CO2_Sensor.h"
+#include <rc_servo.h>
 
 
 // define two Tasks
@@ -110,18 +111,13 @@ xTaskCreate(
 /*-----------------------------------------------------------*/
 void Temperature_Humidity_Task( void *pvParameters )
 {
-
-           tempHum_getDataFromTempHumSensorTask(pvParameters);
-        
-	
-	
+    tempHum_getDataFromTempHumSensorTask(pvParameters);
 }
 
 
 void CO2_Task( void *pvParameters )
 {	
-			CO2_Sensor_Task(pvParameters);
-	
+	CO2_Sensor_Task(pvParameters);
 }
 
 /*-----------------------------------------------------------*/
@@ -174,6 +170,7 @@ void initialiseSystem()
 
     tempHum_init();
 	mh_z19_initialise(ser_USART3);
+	 rc_servo_initialise();
 	create_tasks_and_semaphores();
        // Driver initialised OK
        // Always check what hih8120_initialise() returns
@@ -186,7 +183,6 @@ void initialiseSystem()
 	lora_driver_initialise(1, NULL);
 	// Create LoRaWAN task and start it up with priority 3
 	//lora_handler_initialise(3);
-	
 		upLink_create(4,xMessageBuffer);
 		
 	
