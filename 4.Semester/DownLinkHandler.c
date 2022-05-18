@@ -39,12 +39,24 @@ void lora_DownLinkHandler_task(MessageBufferHandle_t messageBuffer)
 	sizeof(lora_driver_payload_t),
 	portMAX_DELAY);
 	
-			if (_downlink_payload.len == 6)
-			{
-				Configuration_SetMinTemperature(_downlink_payload.bytes[0]);
-				Configuration_SetMinHumidity(_downlink_payload.bytes[1]);
-				Configuration_SetMaxTemperature(_downlink_payload.bytes[3]);
-				Configuration_SetMaxHumidity(_downlink_payload.bytes[4]);
+			if (_downlink_payload.len == 8)
+			{				
+				uint16_t minHumidity = _downlink_payload.bytes[0] << 8; 
+				uint16_t minHumidity = _downlink_payload.bytes[1] & 0xFF;
+				
+				uint16_t minTemperature = _downlink_payload.bytes[2] << 8;
+				uint16_t minTemperature = _downlink_payload.bytes[3] & 0xFF;
+				
+				uint16_t maxHumidity = _downlink_payload.bytes[4] << 8;
+				uint16_t maxHumidity = _downlink_payload.bytes[5] & 0xFF;
+				
+				uint16_t maxTemperature = _downlink_payload.bytes[6] << 8;
+				uint16_t maxTemperature = _downlink_payload.bytes[7] & 0xFF;
+			
+				Configuration_SetMinTemperature(minTemperature);
+				Configuration_SetMinHumidity(minHumidity);
+				Configuration_SetMaxTemperature(maxTemperature);
+				Configuration_SetMaxHumidity(maxHumidity);
 			}
 			else
 			{
