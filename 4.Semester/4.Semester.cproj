@@ -335,6 +335,9 @@
     <Compile Include="FreeRTOS\src\variantHooks.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="RadiatorController.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="SensorData.h">
       <SubType>compile</SubType>
     </Compile>
