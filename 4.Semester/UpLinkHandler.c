@@ -41,7 +41,7 @@ void upLink_create(UBaseType_t priority, MessageBufferHandle_t mBuffer)
 
 
 static void uplink_lora_setup(void)
-{	puts("Try to join");
+{	
 	char _out_buf[20];
 	lora_driver_returnCode_t rc;
 	status_leds_slowBlink(led_ST2); // OPTIONAL: Led the green led blink slowly while we are setting up LoRa
@@ -74,7 +74,7 @@ static void uplink_lora_setup(void)
 	// Join the LoRaWAN
 	uint8_t maxJoinTriesLeft = 10;
 	
-	puts("Try to join");
+	
 	
 	do {
 		rc = lora_driver_join(LORA_OTAA);
@@ -126,33 +126,22 @@ void lora_Handler_task()
 	lora_driver_resetRn2483(0);
 	// Give it a chance to wakeup
 	vTaskDelay(150UL);
-	puts("Start1");
+
 	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
 	uplink_lora_setup();
-	_uplink_payload.len = 6;
-	_uplink_payload.portNo = 2;
-
-	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = pdMS_TO_TICKS(30000UL); // Upload message every 5 minutes (300000 ms)
-	xLastWakeTime = xTaskGetTickCount();
-	
 	size_t xBytesSent;
 	
-	puts("Waiting");
-	xBytesSent = xMessageBufferReceive(
-	messageBuffer,
-	(void*) &_uplink_payload,  			// Object to be send
-	sizeof(lora_driver_payload_t),	// Size of object
-	portMAX_DELAY);			// Block until space in buffer
-
-	puts("Received");
 	for(;;)
 	{
-		xTaskDelayUntil( &xLastWakeTime, xFrequency );
+		xBytesSent = xMessageBufferReceive(
+		messageBuffer,
+		(void*) &_uplink_payload,  			// Object to be send
+		sizeof(_uplink_payload),	// Size of object
+		portMAX_DELAY);
+		
 		
 		if (xBytesSent>0)
 		{
-			//strcpy(_uplink_payload.bytes, xBytesSent);
 			status_leds_shortPuls(led_ST4);  // OPTIONAL
 			printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
 		}
