@@ -32,7 +32,7 @@ void lora_DownLinkHandler_create(UBaseType_t priority, MessageBufferHandle_t mes
 
 void lora_DownLinkHandler_task(MessageBufferHandle_t messageBuffer)
 {
-	
+
 	xMessageBufferReceive(
 	messageBuffer,
 	(void*) &_downlink_payload,
