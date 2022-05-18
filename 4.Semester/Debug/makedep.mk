@@ -30,6 +30,8 @@ FreeRTOS\src\timers.c
 
 FreeRTOS\src\variantHooks.c
 
+RadiatorController.c
+
 SensorDataHandler.c
 
 TempHumSensorImpl.c
