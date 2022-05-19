@@ -29,8 +29,10 @@ main.d main.o: .././main.c \
  ../drivers/serial.h ../drivers/stdio_driver.h ../drivers/mh_z19.h \
  ../FreeRTOS/src/event_groups.h ../FreeRTOS/src/timers.h \
  ../drivers/hih8120.h ../drivers/status_leds.h .././TempHumSensor.h \
- .././UpLinkHandler.h ../FreeRTOS/src/portmacro.h .././CO2_Sensor.h \
+ .././UpLinkHandler.h ../FreeRTOS/src/portmacro.h .././DownLinkHandler.h \
+ .././CO2_Sensor.h ../drivers/rc_servo.h .././UpLinkHandler.h ../FreeRTOS/src/portmacro.h .././CO2_Sensor.h \
  ../drivers/rc_servo.h
+
 
 d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
 
@@ -121,6 +123,8 @@ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbo
 .././UpLinkHandler.h:
 
 ../FreeRTOS/src/portmacro.h:
+
+.././DownLinkHandler.h:
 
 .././CO2_Sensor.h:
 

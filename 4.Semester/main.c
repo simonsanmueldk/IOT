@@ -27,6 +27,7 @@
 #include "TempHumSensor.h"
 #include "message_buffer.h"
 #include "UpLinkHandler.h"
+#include "DownLinkHandler.h"
 #include "CO2_Sensor.h"
 #include <rc_servo.h>
 
@@ -52,6 +53,7 @@ SemaphoreHandle_t xCO2Semaphore;
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority);
 
  MessageBufferHandle_t xMessageBuffer;
+ MessageBufferHandle_t downlinkMessageBuffer;
  const size_t xMessageBufferSizeBytes = 100;
  EventBits_t measureEventGroup;
 EventBits_t dataReadyEventGroup;
@@ -60,6 +62,7 @@ EventBits_t dataReadyEventGroup;
 void create_tasks_and_semaphores(void)
 {
 	xMessageBuffer = xMessageBufferCreate( xMessageBufferSizeBytes );
+	downlinkMessageBuffer = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2);;
 	
 	
 	SensorDataPackage_create();
@@ -180,9 +183,10 @@ void initialiseSystem()
 	// Status Leds driver
 	status_leds_initialise(5); // Priority 5 for internal task
 	// Initialise the LoRaWAN driver without down-link buffer
-	lora_driver_initialise(1, NULL);
+	lora_driver_initialise(1, downlinkMessageBuffer);
 	// Create LoRaWAN task and start it up with priority 3
 	//lora_handler_initialise(3);
+	lora_DownLinkHandler_create(5,downlinkMessageBuffer);
 		upLink_create(4,xMessageBuffer);
 		
 	
