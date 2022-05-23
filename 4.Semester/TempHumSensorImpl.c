@@ -79,8 +79,9 @@ void tempHum_init() {
 void tempHum_getDataFromTempHumSensorTask( void *pvParameters )
 {
 	(void)pvParameters;
-	
 	EventBits_t event_measure;
+
+	tempHum_init();
 	
 	for(;;)
 	{
