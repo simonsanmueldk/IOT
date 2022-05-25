@@ -10,17 +10,13 @@
 #include <hih8120.h>
 #include <ATMEGA_FreeRTOS.h>
 #include <avr/io.h>
-
+#include "Utility.h"
 #include "TempHumSensor.h"
 
 /* Event Groups */
- EventGroupHandle_t _meassureEventGroup ;
- EventGroupHandle_t _dataReadyEventGroup;
+extern EventGroupHandle_t _meassureEventGroup ;
+extern EventGroupHandle_t _dataReadyEventGroup;
  
- //Bit for set
- #define TEMPERATURE_HUMIDITY_READY_BIT (1 << 1)
- //Bit for wait
- #define TEMPERATURE_HUMIDITY_BIT (1 << 0)
 
 
 
@@ -30,6 +26,7 @@
 
 float temperature = 0.0;
 float humidity = 0.0;
+EventBits_t event_measure;
 
 typedef struct Temp_Humidity_Sensor {
 	float temperature_data;
@@ -38,15 +35,13 @@ typedef struct Temp_Humidity_Sensor {
 
 //-------Constructor-------------------
 
-void Temp_Humidty_sensor_create(EventGroupHandle_t event1,EventGroupHandle_t event2)
+void Temp_Humidty_sensor_create()
 {
 	temperature_humdity_sensor_t new_temperature_humidty = pvPortMalloc(sizeof(Temp_Humidity_Sensor));
 	if(NULL == new_temperature_humidty)
 	{
 		return NULL;
 	}
-	_meassureEventGroup=event1;
-	_dataReadyEventGroup=event2;
 	new_temperature_humidty->humidity_data=humidity;
 	new_temperature_humidty->temperature_data=temperature;
 	
@@ -64,39 +59,32 @@ uint16_t get_humidity_data()
 		return (uint16_t)humidity;	
 }
 
+void tempHum_taskCreate(UBaseType_t task_priority){
+	xTaskCreate(
+	tempHum_Task
+	,  "Temperature_Humidity"  // A name just for humans
+	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
+	,  NULL
+	,  task_priority // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+	,  NULL );
+	
+}
 
 
 /* Task to run for the sensors to work */
-void tempHum_init() {
-	if ( HIH8120_OK == hih8120_initialise() )
-	{
-		// Driver initialized OK
-		// Always check what hih8120_initialise() returns
-	}	else printf("Driver doesn't start");
-}
-
-/* Get Data from the sensors */
-void tempHum_getDataFromTempHumSensorTask( void *pvParameters )
-{
-	(void)pvParameters;
+void tempHum_Run() {
+	//Wait for Event bits to be set in Group
+	event_measure = xEventGroupWaitBits(
+	_meassureEventGroup,
+	BIT_TEMPERATURE_HUMIDITY,
+	pdTRUE,
+	pdTRUE,
+	portMAX_DELAY);
 	
-	EventBits_t event_measure;
-	
-	for(;;)
+	if ((event_measure & BIT_TEMPERATURE_HUMIDITY) ==BIT_TEMPERATURE_HUMIDITY)
 	{
 		
-		//Wait for Event bits to be set in Group
-		event_measure = xEventGroupWaitBits(
-		_meassureEventGroup,
-		TEMPERATURE_HUMIDITY_BIT,
-		pdTRUE,
-		pdTRUE,
-		portMAX_DELAY);
-		
-		if ((event_measure & TEMPERATURE_HUMIDITY_BIT) ==TEMPERATURE_HUMIDITY_BIT)
-		{
-			
-			vTaskDelay( pdMS_TO_TICKS(100UL));
+		vTaskDelay( pdMS_TO_TICKS(100UL));
 		
 		if (HIH8120_OK != hih8120_wakeup())
 		{
@@ -108,12 +96,12 @@ void tempHum_getDataFromTempHumSensorTask( void *pvParameters )
 			}
 		}
 		hih8120_measure();
-	
+		
 		vTaskDelay(pdMS_TO_TICKS(50UL));
 		
 		if (HIH8120_OK == hih8120_measure() )
 		{
-		
+			
 			vTaskDelay(pdMS_TO_TICKS(100UL));
 			humidity =  hih8120_getHumidity();
 			temperature = hih8120_getTemperature();
@@ -121,7 +109,16 @@ void tempHum_getDataFromTempHumSensorTask( void *pvParameters )
 			xEventGroupSetBits(_dataReadyEventGroup, TEMPERATURE_HUMIDITY_READY_BIT);
 			
 		}
-	}	
-		}
 	}
+		
+}
+
+void tempHum_Task( void *pvParameters )
+{
+	(void)pvParameters;
+	for(;;)
+	{
+		tempHum_Run();
+	}
+}
 

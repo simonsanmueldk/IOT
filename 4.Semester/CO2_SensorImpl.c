@@ -15,13 +15,12 @@
 #include <stdbool.h>
 #include <serial.h>
 #include <ATMEGA_FreeRTOS.h>
+#include "Utility.h"
+
+extern EventGroupHandle_t _dataReadyEventGroup ;
+extern EventGroupHandle_t _meassureEventGroup ;
 
 
-EventGroupHandle_t dataReadyEventGroup ;
-EventGroupHandle_t meassureEventGroup ;
-
-#define CO2_READY_BIT (1<<0)
-#define CO2_BIT (1<<1)
 
 TickType_t xLastWakeTime;	
 TickType_t xFrequency;
@@ -35,23 +34,30 @@ typedef struct CO2_Sensor {
 
 
 
-void CO2_sensor_create(EventGroupHandle_t event1,EventGroupHandle_t event2)
+void CO2_sensor_create()
 {
-	
 	co2_sensor_t new_co2_data = pvPortMalloc(sizeof(CO2_Sensor));
 	if(NULL == new_co2_data)
 	{
 		return NULL;
 	}
 	new_co2_data->co2_Data=co2_data;
-	meassureEventGroup=event1;
-	dataReadyEventGroup=event2;
 
+}
+void co2_task_create(UBaseType_t task_priority)
+{
+	xTaskCreate(
+	CO2_Sensor_Task
+	,  "CO2 Task" 
+	,  configMINIMAL_STACK_SIZE  
+	,  NULL
+	,  task_priority 
+	,  NULL );
 }
 
 void myCo2CallBack(uint16_t *data){
 	co2_data = data;
-	xEventGroupSetBits(dataReadyEventGroup,CO2_READY_BIT);
+	xEventGroupSetBits(_dataReadyEventGroup,CO2_READY_BIT);
 };
 
 
@@ -65,41 +71,31 @@ void CO2_taskRun() {
 	
 	EventBits_t event_measure;
 	event_measure = xEventGroupWaitBits(
-	meassureEventGroup,
-	CO2_BIT,
+	_meassureEventGroup,
+	BIT_CO2,
 	pdTRUE,
 	pdTRUE,
 	portMAX_DELAY);
 	
-	if ((event_measure & CO2_BIT)==CO2_BIT)
+	if ((event_measure & BIT_CO2)==BIT_CO2)
 	{
-	
-		
 		vTaskDelay(pdMS_TO_TICKS(100UL));
 		rc = mh_z19_takeMeassuring();
-		
 		if (rc != MHZ19_OK)
 		{
 			printf("task got wrong");
 		}
-	
 		printf("<<CO2 task set>>");		
-		
 	}		
 }
 
 
 void CO2_Sensor_Task(void *pvParameters){
 	(void)pvParameters;
-	puts("<<<CO2  1>>>>");
-	xFrequency = 3000/portTICK_PERIOD_MS;
-	xLastWakeTime = xTaskGetTickCount();
 	mh_z19_injectCallBack(myCo2CallBack);
 	for(;;)
 	{
-		
 		CO2_taskRun();
 	}
-	
 	
 }

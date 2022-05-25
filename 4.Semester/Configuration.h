@@ -18,7 +18,7 @@
 #include <string.h>
 #include <stdint.h> 
 #include <semphr.h>
-typedef enum { OK,FAILED} ConfigurationReturnCode;
+typedef enum { GOOD,BAD} ConfigurationReturnCode;
 
 
 SemaphoreHandle_t mutex;
@@ -28,15 +28,14 @@ typedef struct Configuration* Configuration_t;
 
 Configuration_t Configuration_create();
 ConfigurationReturnCode Configuration_destroy();
-ConfigurationReturnCode Configuration_SetMinTemperature(uint16_t temperature_data);
-ConfigurationReturnCode Configuration_SetMinHumidity(uint16_t humidity_data);
+void Configuration_SetMinTemperature(int16_t temperature_data);
+void Configuration_SetMinHumidity(uint16_t humidity_data);
+void Configuration_SetMaxTemperature(int16_t temperature_data);
+void Configuration_SetMaxHumidity(uint16_t humidity_data);
 
-ConfigurationReturnCode Configuration_SetMaxTemperature(uint16_t temperature_data);
-ConfigurationReturnCode Configuration_SetMaxHumidity(uint16_t humidity_data);
-
-uint16_t Configuration_GetMaxTemperature();
+int16_t Configuration_GetMaxTemperature();
 uint16_t Configuration_GetMaxHumidity();
-uint16_t Configuration_GetMinTemperature();
+int16_t Configuration_GetMinTemperature();
 uint16_t Configuration_GetMinHumidity();
 #endif /* CONFIGURATION_H_*/
 

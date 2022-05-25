@@ -180,10 +180,19 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Application.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Application.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="CO2_Sensor.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="CO2_SensorImpl.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ConditionerController.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Configuration.h">
@@ -336,7 +345,13 @@
     <Compile Include="FreeRTOS\src\variantHooks.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="RadiatorController.c">
+    <Compile Include="ConditionerControllerHandler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Utility.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Utility.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="SensorData.h">

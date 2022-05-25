@@ -12,9 +12,9 @@
 
 
 
-void tempHum_taskRun(void);
-void tempHum_getDataFromTempHumSensorTask( void *pvParameters );
-void tempHum_init();
+void tempHum_taskCreate(UBaseType_t task_priority);
+void tempHum_Task( void *pvParameters );
+void tempHum_Run();
 typedef struct Temp_Humidity_Sensor* temperature_humdity_sensor_t;
 
-void Temp_Humidty_sensor_create(EventGroupHandle_t event1,EventGroupHandle_t event2);uint16_t get_temperature_data();uint16_t get_humidity_data();
+void Temp_Humidty_sensor_create();uint16_t get_temperature_data();uint16_t get_humidity_data();

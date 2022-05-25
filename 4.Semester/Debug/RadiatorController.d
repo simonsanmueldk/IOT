@@ -1,5 +1,6 @@
 RadiatorController.d RadiatorController.o: .././RadiatorController.c \
- .././Configuration.h ../FreeRTOS/src/ATMEGA_FreeRTOS.h \
+ .././ConditionerController.h .././Configuration.h \
+ ../FreeRTOS/src/ATMEGA_FreeRTOS.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h \
@@ -26,6 +27,8 @@ RadiatorController.d RadiatorController.o: .././RadiatorController.c \
  ../FreeRTOS/src/semphr.h ../FreeRTOS/src/queue.h .././TempHumSensor.h \
  ../FreeRTOS/src/event_groups.h ../FreeRTOS/src/timers.h \
  ../drivers/rc_servo.h
+
+.././ConditionerController.h:
 
 .././Configuration.h:
 

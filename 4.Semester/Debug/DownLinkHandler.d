@@ -21,14 +21,14 @@ DownLinkHandler.d DownLinkHandler.o: .././DownLinkHandler.c \
  ../FreeRTOS/src/list.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h \
- .././Configuration.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
- ../FreeRTOS/src/semphr.h ../FreeRTOS/src/queue.h \
+ .././Configuration.h ../FreeRTOS/src/semphr.h ../FreeRTOS/src/queue.h \
  ../drivers/lora_driver.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
  ../FreeRTOS/src/message_buffer.h ../FreeRTOS/src/stream_buffer.h \
- ../drivers/serial.h ../drivers/status_leds.h
+ ../drivers/serial.h ../drivers/status_leds.h .././Utility.h \
+ ../FreeRTOS/src/event_groups.h ../FreeRTOS/src/timers.h
 
 ../FreeRTOS/src/ATMEGA_FreeRTOS.h:
 
@@ -80,11 +80,11 @@ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
 
 d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h:
 
-.././Configuration.h:
-
 d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
 
 d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h:
+
+.././Configuration.h:
 
 ../FreeRTOS/src/semphr.h:
 
@@ -101,3 +101,9 @@ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbo
 ../drivers/serial.h:
 
 ../drivers/status_leds.h:
+
+.././Utility.h:
+
+../FreeRTOS/src/event_groups.h:
+
+../FreeRTOS/src/timers.h:

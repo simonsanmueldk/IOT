@@ -6,9 +6,7 @@
  */ 
 
 
-#include "Configuration.h"
-#include "TempHumSensor.h"
-#include <rc_servo.h>
+#include "ConditionerController.h"
 
 uint16_t current_temperature;
 uint16_t current_humiditiy;
@@ -19,31 +17,32 @@ uint16_t max_humidity;
 uint16_t actuator;
 
 
-void radiator_controller_create(UBaseType_t priority)
+void conditioner_controller_create(UBaseType_t priority)
 {
 	actuator=0;
 	xTaskCreate(
-	Radiator_Task_Run(),
-	"RadiatorController",
+	Conditioner_Task_Run,
+	"ConditionerController",
 	configMINIMAL_STACK_SIZE+200,
 	NULL,
 	priority,
 	NULL );
 }
 
-void Radiator_Task_Run(void* pvParameters)
+void Conditioner_Task_Run(void* pvParameters)
 {
 	(void)pvParameters;
 	
 	for (;;)
 	{
-		Radiator_task();
+		Conditioner_task();
 	}
 }
 
-void Radiator_task()
+void Conditioner_task()
 {
 
+		printf("start ACUTATOR");
 	current_humiditiy=get_humidity_data();
 	current_temperature=get_temperature_data();
 	

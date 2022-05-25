@@ -25,7 +25,9 @@ CO2_SensorImpl.d CO2_SensorImpl.o: .././CO2_SensorImpl.c \
  ../drivers/hih8120.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
  ../FreeRTOS/src/event_groups.h ../FreeRTOS/src/timers.h \
- ../drivers/mh_z19.h ../drivers/serial.h ../FreeRTOS/src/task.h
+ ../drivers/mh_z19.h ../drivers/serial.h ../FreeRTOS/src/task.h \
+ .././Utility.h ../FreeRTOS/src/message_buffer.h \
+ ../FreeRTOS/src/stream_buffer.h
 
 .././CO2_Sensor.h:
 
@@ -94,3 +96,9 @@ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbo
 ../drivers/serial.h:
 
 ../FreeRTOS/src/task.h:
+
+.././Utility.h:
+
+../FreeRTOS/src/message_buffer.h:
+
+../FreeRTOS/src/stream_buffer.h:

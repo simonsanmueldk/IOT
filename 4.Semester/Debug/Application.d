@@ -1,10 +1,12 @@
-main.d main.o: .././main.c \
- d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
- d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
+Application.d Application.o: .././Application.c \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h \
+ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
+ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
+ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
+ ../FreeRTOS/src/ATMEGA_FreeRTOS.h ../FreeRTOS/src/FreeRTOSConfig.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
  D:\Arduino\7.0\Packs\atmel\ATmega_DFP\1.6.364\include/avr/iom2560.h \
@@ -13,37 +15,37 @@ main.d main.o: .././main.c \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\version.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
- ../FreeRTOS/src/ATMEGA_FreeRTOS.h ../FreeRTOS/src/FreeRTOSConfig.h \
  ../FreeRTOS/src/projdefs.h ../FreeRTOS/src/portable.h \
  ../FreeRTOS/src/portmacro.h ../FreeRTOS/src/mpu_wrappers.h \
  ../FreeRTOS/src/FreeRTOSVariant.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\wdt.h \
  ../FreeRTOS/src/ATMEGA_FreeRTOS.h ../FreeRTOS/src/task.h \
- ../FreeRTOS/src/list.h ../FreeRTOS/src/task.h ../FreeRTOS/src/semphr.h \
- ../FreeRTOS/src/queue.h .././SensorData.h \
- d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
- d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
- ../drivers/lora_driver.h \
- d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
- ../FreeRTOS/src/message_buffer.h ../FreeRTOS/src/stream_buffer.h \
- ../drivers/serial.h ../drivers/stdio_driver.h ../drivers/mh_z19.h \
+ ../FreeRTOS/src/list.h ../FreeRTOS/src/task.h \
  ../FreeRTOS/src/event_groups.h ../FreeRTOS/src/timers.h \
- ../drivers/hih8120.h ../drivers/status_leds.h .././TempHumSensor.h \
- .././UpLinkHandler.h ../FreeRTOS/src/portmacro.h .././DownLinkHandler.h \
- .././CO2_Sensor.h ../drivers/rc_servo.h .././ConditionerController.h \
- .././Configuration.h .././Utility.h
-
-d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
-
-d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h:
+ .././TempHumSensor.h ../FreeRTOS/src/message_buffer.h \
+ ../FreeRTOS/src/stream_buffer.h .././CO2_Sensor.h ../drivers/hih8120.h \
+ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
+ .././Application.h ../drivers/lora_driver.h ../drivers/serial.h \
+ .././Utility.h .././SensorData.h \
+ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h
 
 d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h:
 
 d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h:
 
+d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
+
+d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h:
+
 d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h:
 
 d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h:
+
+d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
+
+../FreeRTOS/src/ATMEGA_FreeRTOS.h:
+
+../FreeRTOS/src/FreeRTOSConfig.h:
 
 d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -60,10 +62,6 @@ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\version.h:
 d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h:
 
 d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h:
-
-../FreeRTOS/src/ATMEGA_FreeRTOS.h:
-
-../FreeRTOS/src/FreeRTOSConfig.h:
 
 ../FreeRTOS/src/projdefs.h:
 
@@ -85,52 +83,30 @@ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\wdt.h:
 
 ../FreeRTOS/src/task.h:
 
-../FreeRTOS/src/semphr.h:
+../FreeRTOS/src/event_groups.h:
 
-../FreeRTOS/src/queue.h:
+../FreeRTOS/src/timers.h:
 
-.././SensorData.h:
-
-d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
-
-d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h:
-
-../drivers/lora_driver.h:
-
-d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h:
+.././TempHumSensor.h:
 
 ../FreeRTOS/src/message_buffer.h:
 
 ../FreeRTOS/src/stream_buffer.h:
 
-../drivers/serial.h:
-
-../drivers/stdio_driver.h:
-
-../drivers/mh_z19.h:
-
-../FreeRTOS/src/event_groups.h:
-
-../FreeRTOS/src/timers.h:
+.././CO2_Sensor.h:
 
 ../drivers/hih8120.h:
 
-../drivers/status_leds.h:
+d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h:
 
-.././TempHumSensor.h:
+.././Application.h:
 
-.././UpLinkHandler.h:
+../drivers/lora_driver.h:
 
-../FreeRTOS/src/portmacro.h:
-
-.././DownLinkHandler.h:
-
-.././CO2_Sensor.h:
-
-../drivers/rc_servo.h:
-
-.././ConditionerController.h:
-
-.././Configuration.h:
+../drivers/serial.h:
 
 .././Utility.h:
+
+.././SensorData.h:
+
+d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h:

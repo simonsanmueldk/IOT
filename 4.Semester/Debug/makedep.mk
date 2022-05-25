@@ -2,6 +2,8 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+Application.c
+
 CO2_SensorImpl.c
 
 ConfigurationImpl.c
@@ -30,7 +32,9 @@ FreeRTOS\src\timers.c
 
 FreeRTOS\src\variantHooks.c
 
-RadiatorController.c
+ConditionerControllerHandler.c
+
+Utility.c
 
 SensorDataHandler.c
 

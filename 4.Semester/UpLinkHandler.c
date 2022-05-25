@@ -13,12 +13,13 @@
 #define LORA_appEUI "49B360EEE16A8D4C"
 #define LORA_appKEY "E0597BF885F1F18CF896B91F8E211814" 
 #include <status_leds.h>
+#include "Utility.h"
 
 static lora_driver_payload_t _uplink_payload;
-static MessageBufferHandle_t messageBuffer;
+extern MessageBufferHandle_t xMessageBuffer;
 
 
-void upLinkHandler_StartTask(void* mBuffer){
+void upLinkHandler_StartTask(){
 	for(;;)
 	{
 	
@@ -26,15 +27,15 @@ void upLinkHandler_StartTask(void* mBuffer){
 	}
 }
 
-void upLink_create(UBaseType_t priority, MessageBufferHandle_t mBuffer)
+void upLink_create(UBaseType_t priority)
 {
-	messageBuffer = mBuffer;
+	
 	
 	xTaskCreate(
 	upLinkHandler_StartTask,
 	"LoraUpLink",
 	configMINIMAL_STACK_SIZE+200,
-	(void*)mBuffer,
+	(void*)xMessageBuffer,
 	priority,
 	NULL );
 }
@@ -134,7 +135,7 @@ void lora_Handler_task()
 	for(;;)
 	{
 		xBytesSent = xMessageBufferReceive(
-		messageBuffer,
+		xMessageBuffer,
 		(void*) &_uplink_payload,  			// Object to be send
 		sizeof(_uplink_payload),	// Size of object
 		portMAX_DELAY);

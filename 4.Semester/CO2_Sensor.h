@@ -21,8 +21,9 @@ typedef enum CO2ReturnCode{
 }CO2ReturnCode;
 typedef struct CO2_Sensor* co2_sensor_t;
 
-void CO2_sensor_create(EventGroupHandle_t event1,EventGroupHandle_t event2);
+void CO2_sensor_create();
 void myCo2CallBack(uint16_t *ppm);
+void co2_task_create(UBaseType_t task_priority);
 uint16_t get_CO2_data();
 void CO2_taskRun(void);
 void CO2_Sensor_Task(void *pvParameters);

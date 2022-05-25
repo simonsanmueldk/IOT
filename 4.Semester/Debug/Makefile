@@ -43,6 +43,7 @@ SUBDIRS :=  \
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../Application.c \
 ../CO2_SensorImpl.c \
 ../ConfigurationImpl.c \
 ../DownLinkHandler.c \
@@ -57,7 +58,8 @@ C_SRCS +=  \
 ../FreeRTOS/src/tasks.c \
 ../FreeRTOS/src/timers.c \
 ../FreeRTOS/src/variantHooks.c \
-../RadiatorController.c \
+../ConditionerControllerHandler.c \
+../Utility.c \
 ../SensorDataHandler.c \
 ../TempHumSensorImpl.c \
 ../UpLinkHandler.c \
@@ -72,6 +74,7 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+Application.o \
 CO2_SensorImpl.o \
 ConfigurationImpl.o \
 DownLinkHandler.o \
@@ -86,7 +89,8 @@ FreeRTOS/src/stream_buffer.o \
 FreeRTOS/src/tasks.o \
 FreeRTOS/src/timers.o \
 FreeRTOS/src/variantHooks.o \
-RadiatorController.o \
+ConditionerControllerHandler.o \
+Utility.o \
 SensorDataHandler.o \
 TempHumSensorImpl.o \
 UpLinkHandler.o \
@@ -94,6 +98,7 @@ main.o \
 LoRaWANHandler.o
 
 OBJS_AS_ARGS +=  \
+Application.o \
 CO2_SensorImpl.o \
 ConfigurationImpl.o \
 DownLinkHandler.o \
@@ -108,7 +113,8 @@ FreeRTOS/src/stream_buffer.o \
 FreeRTOS/src/tasks.o \
 FreeRTOS/src/timers.o \
 FreeRTOS/src/variantHooks.o \
-RadiatorController.o \
+ConditionerControllerHandler.o \
+Utility.o \
 SensorDataHandler.o \
 TempHumSensorImpl.o \
 UpLinkHandler.o \
@@ -116,6 +122,7 @@ main.o \
 LoRaWANHandler.o
 
 C_DEPS +=  \
+Application.d \
 CO2_SensorImpl.d \
 ConfigurationImpl.d \
 DownLinkHandler.d \
@@ -130,7 +137,8 @@ FreeRTOS/src/stream_buffer.d \
 FreeRTOS/src/tasks.d \
 FreeRTOS/src/timers.d \
 FreeRTOS/src/variantHooks.d \
-RadiatorController.d \
+ConditionerControllerHandler.d \
+Utility.d \
 SensorDataHandler.d \
 TempHumSensorImpl.d \
 UpLinkHandler.d \
@@ -138,6 +146,7 @@ main.d \
 LoRaWANHandler.d
 
 C_DEPS_AS_ARGS +=  \
+Application.d \
 CO2_SensorImpl.d \
 ConfigurationImpl.d \
 DownLinkHandler.d \
@@ -152,7 +161,8 @@ FreeRTOS/src/stream_buffer.d \
 FreeRTOS/src/tasks.d \
 FreeRTOS/src/timers.d \
 FreeRTOS/src/variantHooks.d \
-RadiatorController.d \
+ConditionerControllerHandler.d \
+Utility.d \
 SensorDataHandler.d \
 TempHumSensorImpl.d \
 UpLinkHandler.d \
@@ -173,6 +183,13 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+./Application.o: .././Application.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)D:\Arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=16000000L  -I"D:\Arduino\7.0\Packs\atmel\ATmega_DFP\1.6.364\include" -I"../drivers" -I"../FreeRTOS/src"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "D:\Arduino\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
 ./CO2_SensorImpl.o: .././CO2_SensorImpl.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
@@ -271,7 +288,14 @@ FreeRTOS/src/variantHooks.o: ../FreeRTOS/src/variantHooks.c
 	@echo Finished building: $<
 	
 
-./RadiatorController.o: .././RadiatorController.c
+./ConditionerControllerHandler.o: .././ConditionerControllerHandler.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)D:\Arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=16000000L  -I"D:\Arduino\7.0\Packs\atmel\ATmega_DFP\1.6.364\include" -I"../drivers" -I"../FreeRTOS/src"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "D:\Arduino\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./Utility.o: .././Utility.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)D:\Arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=16000000L  -I"D:\Arduino\7.0\Packs\atmel\ATmega_DFP\1.6.364\include" -I"../drivers" -I"../FreeRTOS/src"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "D:\Arduino\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
