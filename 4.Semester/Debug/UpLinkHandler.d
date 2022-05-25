@@ -28,7 +28,7 @@ UpLinkHandler.d UpLinkHandler.o: .././UpLinkHandler.c \
  ../FreeRTOS/src/portmacro.h .././SensorData.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
  ../drivers/status_leds.h .././Utility.h ../FreeRTOS/src/event_groups.h \
- ../FreeRTOS/src/timers.h
+ ../FreeRTOS/src/timers.h ../FreeRTOS/src/task.h
 
 ../FreeRTOS/src/ATMEGA_FreeRTOS.h:
 
@@ -107,3 +107,5 @@ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h:
 ../FreeRTOS/src/event_groups.h:
 
 ../FreeRTOS/src/timers.h:
+
+../FreeRTOS/src/task.h:

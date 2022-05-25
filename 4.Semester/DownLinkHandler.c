@@ -22,7 +22,7 @@ int16_t maxTemperature;
 
 
 
-void lora_DownLinkHandler_startTask(void* msbuffer){
+void lora_DownLinkHandler_startTask(){
 	for(;;)
 	{
 		lora_DownLinkHandler_task();
@@ -51,6 +51,7 @@ void lora_DownLinkHandler_task()
 
 	if (xReceivedBytes>0)
 	{	
+		
 		printf("DOWN LINK: from port: %d with %d bytes received!\n", _downlink_payload.portNo, _downlink_payload.len);
 		
 			if (8==_downlink_payload.len )
@@ -64,7 +65,6 @@ void lora_DownLinkHandler_task()
 				Configuration_SetMinHumidity(minHumidity);
 				Configuration_SetMaxTemperature(maxTemperature);
 				Configuration_SetMaxHumidity(maxHumidity);
-
 			}
 			else
 			{

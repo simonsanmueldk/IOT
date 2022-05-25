@@ -118,12 +118,13 @@ static void uplink_lora_setup(void)
 }
 
 void send(size_t xBytesSent){
+	
 	xBytesSent = xMessageBufferReceive(
 	xMessageBuffer,
 	(void*) &_uplink_payload,  			// Object to be send
 	sizeof(_uplink_payload),	// Size of object
 	portMAX_DELAY);
-	
+
 	
 	if (xBytesSent>0)
 	{

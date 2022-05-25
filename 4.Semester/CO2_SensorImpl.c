@@ -17,8 +17,10 @@
 #include <ATMEGA_FreeRTOS.h>
 #include "Utility.h"
 
+
 extern EventGroupHandle_t _dataReadyEventGroup ;
 extern EventGroupHandle_t _meassureEventGroup ;
+#define CO2_READY_BIT (1<<0)
 
 
 
@@ -46,6 +48,7 @@ void CO2_sensor_create()
 }
 void co2_task_create(UBaseType_t task_priority)
 {
+	
 	xTaskCreate(
 	CO2_Sensor_Task
 	,  "CO2 Task" 
@@ -69,15 +72,16 @@ uint16_t get_CO2_data(){
 
 void CO2_taskRun() {
 	
+	
 	EventBits_t event_measure;
 	event_measure = xEventGroupWaitBits(
 	_meassureEventGroup,
-	BIT_CO2,
+	CO2_BIT,
 	pdTRUE,
 	pdTRUE,
 	portMAX_DELAY);
 	
-	if ((event_measure & BIT_CO2)==BIT_CO2)
+	if ((event_measure & CO2_BIT)==CO2_BIT)
 	{
 		vTaskDelay(pdMS_TO_TICKS(100UL));
 		rc = mh_z19_takeMeassuring();

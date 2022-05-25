@@ -12,12 +12,13 @@
 #include <avr/io.h>
 #include "Utility.h"
 #include "TempHumSensor.h"
+#include "event_groups.h"
 
 /* Event Groups */
 extern EventGroupHandle_t _meassureEventGroup ;
 extern EventGroupHandle_t _dataReadyEventGroup;
-
-
+ //Bit for set
+ #define TEMPERATURE_HUMIDITY_READY_BIT (1 << 1)
 
 
 /* Tick type */
@@ -60,6 +61,7 @@ uint16_t get_humidity_data()
 }
 
 void tempHum_taskCreate(UBaseType_t task_priority){
+	
 	xTaskCreate(
 	tempHum_Task
 	,  "Temperature_Humidity"  // A name just for humans
@@ -74,14 +76,15 @@ void tempHum_taskCreate(UBaseType_t task_priority){
 /* Task to run for the sensors to work */
 void tempHum_Run() {
 	//Wait for Event bits to be set in Group
+	
 	event_measure = xEventGroupWaitBits(
 	_meassureEventGroup,
-	BIT_TEMPERATURE_HUMIDITY,
+	TEMPERATURE_HUMIDITY_BIT,
 	pdTRUE,
 	pdTRUE,
 	portMAX_DELAY);
-	
-	if ((event_measure & BIT_TEMPERATURE_HUMIDITY) ==BIT_TEMPERATURE_HUMIDITY)
+		
+	if ((event_measure & TEMPERATURE_HUMIDITY_BIT) ==TEMPERATURE_HUMIDITY_BIT)
 	{
 		
 		vTaskDelay( pdMS_TO_TICKS(100UL));
@@ -105,9 +108,8 @@ void tempHum_Run() {
 			vTaskDelay(pdMS_TO_TICKS(100UL));
 			humidity =  hih8120_getHumidity();
 			temperature = hih8120_getTemperature();
-			printf("<<Temperature Humidity task set>>");
+			//printf("<<Temperature Humidity task set>>");
 			xEventGroupSetBits(_dataReadyEventGroup, TEMPERATURE_HUMIDITY_READY_BIT);
-			
 		}
 	}
 	

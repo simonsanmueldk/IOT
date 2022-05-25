@@ -28,7 +28,8 @@ DownLinkHandler.d DownLinkHandler.o: .././DownLinkHandler.c \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
  ../FreeRTOS/src/message_buffer.h ../FreeRTOS/src/stream_buffer.h \
  ../drivers/serial.h ../drivers/status_leds.h .././Utility.h \
- ../FreeRTOS/src/event_groups.h ../FreeRTOS/src/timers.h
+ ../FreeRTOS/src/event_groups.h ../FreeRTOS/src/timers.h \
+ ../FreeRTOS/src/task.h
 
 ../FreeRTOS/src/ATMEGA_FreeRTOS.h:
 
@@ -107,3 +108,5 @@ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbo
 ../FreeRTOS/src/event_groups.h:
 
 ../FreeRTOS/src/timers.h:
+
+../FreeRTOS/src/task.h:

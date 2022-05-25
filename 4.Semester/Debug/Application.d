@@ -20,13 +20,14 @@ Application.d Application.o: .././Application.c \
  ../FreeRTOS/src/FreeRTOSVariant.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\wdt.h \
  ../FreeRTOS/src/ATMEGA_FreeRTOS.h ../FreeRTOS/src/task.h \
- ../FreeRTOS/src/list.h ../FreeRTOS/src/task.h \
- ../FreeRTOS/src/event_groups.h ../FreeRTOS/src/timers.h \
- .././TempHumSensor.h ../FreeRTOS/src/message_buffer.h \
- ../FreeRTOS/src/stream_buffer.h .././CO2_Sensor.h ../drivers/hih8120.h \
+ ../FreeRTOS/src/list.h ../drivers/stdio_driver.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
- .././Application.h ../drivers/lora_driver.h ../drivers/serial.h \
- .././Utility.h .././SensorData.h \
+ ../FreeRTOS/src/task.h ../FreeRTOS/src/event_groups.h \
+ ../FreeRTOS/src/timers.h .././TempHumSensor.h \
+ ../FreeRTOS/src/message_buffer.h ../FreeRTOS/src/stream_buffer.h \
+ .././CO2_Sensor.h ../drivers/hih8120.h .././Application.h \
+ ../drivers/lora_driver.h ../drivers/serial.h .././Utility.h \
+ .././SensorData.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h
 
 d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h:
@@ -81,6 +82,10 @@ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\wdt.h:
 
 ../FreeRTOS/src/list.h:
 
+../drivers/stdio_driver.h:
+
+d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h:
+
 ../FreeRTOS/src/task.h:
 
 ../FreeRTOS/src/event_groups.h:
@@ -96,8 +101,6 @@ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\wdt.h:
 .././CO2_Sensor.h:
 
 ../drivers/hih8120.h:
-
-d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h:
 
 .././Application.h:
 

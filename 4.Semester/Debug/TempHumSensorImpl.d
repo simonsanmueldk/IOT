@@ -24,7 +24,7 @@ TempHumSensorImpl.d TempHumSensorImpl.o: .././TempHumSensorImpl.c \
  ../FreeRTOS/src/ATMEGA_FreeRTOS.h ../FreeRTOS/src/task.h \
  ../FreeRTOS/src/list.h .././Utility.h ../FreeRTOS/src/message_buffer.h \
  ../FreeRTOS/src/stream_buffer.h ../FreeRTOS/src/event_groups.h \
- ../FreeRTOS/src/timers.h .././TempHumSensor.h
+ ../FreeRTOS/src/timers.h ../FreeRTOS/src/task.h .././TempHumSensor.h
 
 d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
 
@@ -91,5 +91,7 @@ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\wdt.h:
 ../FreeRTOS/src/event_groups.h:
 
 ../FreeRTOS/src/timers.h:
+
+../FreeRTOS/src/task.h:
 
 .././TempHumSensor.h:

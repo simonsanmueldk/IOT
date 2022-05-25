@@ -10,4 +10,4 @@
 
 void Application_Task(void* pvParameters);
 void application_task_create(UBaseType_t task_priority);
-void application_run(TickType_t xLastWakeTime,TickType_t xFrequency);
+void application_run(TickType_t* xLastWakeTime,TickType_t xFrequency);

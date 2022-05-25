@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ATMEGA_FreeRTOS.h>
+#include <avr/io.h>
+#include <stdio_driver.h>
 #include <task.h>
 #include <event_groups.h>
 #include "TempHumSensor.h"
@@ -19,7 +21,7 @@
 #include <lora_driver.h>
 #include "Utility.h"
 #include "SensorData.h"
-
+#include <serial.h>
 
 lora_driver_payload_t payload;
 EventBits_t dataReadyEventBits;
@@ -28,15 +30,16 @@ extern MessageBufferHandle_t xMessageBuffer;
 extern EventGroupHandle_t _meassureEventGroup ;
 extern EventGroupHandle_t _dataReadyEventGroup;
 
+
 void Application_Task(void* pvParameters)
 {
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // Upload message every 5 minutes (300000 ms)
+	const TickType_t xFrequency = pdMS_TO_TICKS(100000UL); // Upload message every 5 minutes (300000 ms)
 	xLastWakeTime = xTaskGetTickCount();
 	
 	for (;;)
 	{
-		application_run(xLastWakeTime,xFrequency);
+		application_run(&xLastWakeTime,xFrequency);
 	}
 }
 void application_task_create(UBaseType_t task_priority)
@@ -50,25 +53,23 @@ void application_task_create(UBaseType_t task_priority)
 	,  NULL );
 	
 }
-void application_run(TickType_t xLastWakeTime,TickType_t xFrequency)
+void application_run(TickType_t* xLastWakeTime,TickType_t xFrequency)
 {
-	
-	xEventGroupSetBits(_meassureEventGroup,CO2_BIT | HUMIDITY_TEMPERATURE_BIT);
-	dataReadyEventBits=xEventGroupWaitBits(_dataReadyEventGroup,CO2_BIT | HUMIDITY_TEMPERATURE_BIT,pdTRUE,pdTRUE,portMAX_DELAY);
-	if ((dataReadyEventBits &(CO2_BIT | HUMIDITY_TEMPERATURE_BIT)  )== (CO2_BIT | HUMIDITY_TEMPERATURE_BIT))
+	xEventGroupSetBits(_meassureEventGroup, CO2_BIT | TEMPERATURE_HUMIDITY_BIT);
+	dataReadyEventBits=xEventGroupWaitBits(_dataReadyEventGroup,CO2_BIT | TEMPERATURE_HUMIDITY_BIT,pdTRUE,pdTRUE,portMAX_DELAY);
+	if ((dataReadyEventBits & (CO2_BIT | TEMPERATURE_HUMIDITY_BIT) ) == (CO2_BIT | TEMPERATURE_HUMIDITY_BIT))
 	{
-		
 		setTemperatureData(get_temperature_data());
-		printf("Temperature data ---> %d ",get_temperature_data());
+		//printf("Temperature data ---> %d ",get_temperature_data());
 		setHumidityData(get_humidity_data());
-		printf(" Humidity data ---> %d ",get_humidity_data());
+		//printf(" Humidity data ---> %d ",get_humidity_data());
 		setCO2Ppm(get_CO2_data());
-		printf("CO2 data ---> %i ",get_CO2_data());
+		//printf("CO2 data ---> %i ",get_CO2_data());
 		
 		payload=getLoRaPayload((uint8_t)2);
 		vTaskDelay(pdMS_TO_TICKS(50UL));
 		xMessageBufferSend(xMessageBuffer,(void*)&payload,sizeof(payload),portMAX_DELAY);
-		xTaskDelayUntil( &xLastWakeTime, xFrequency );
+		xTaskDelayUntil(xLastWakeTime, xFrequency );
 	}
 	
 }
