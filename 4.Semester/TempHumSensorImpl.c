@@ -16,13 +16,13 @@
 /* Event Groups */
 extern EventGroupHandle_t _meassureEventGroup ;
 extern EventGroupHandle_t _dataReadyEventGroup;
- 
 
 
 
- /* Tick type */
- TickType_t xLastWakeTime;
- TickType_t xFrequency;
+
+/* Tick type */
+TickType_t xLastWakeTime;
+TickType_t xFrequency;
 
 float temperature = 0.0;
 float humidity = 0.0;
@@ -50,13 +50,13 @@ void Temp_Humidty_sensor_create()
 
 uint16_t get_temperature_data()
 {
-		return (uint16_t)temperature;
+	return (uint16_t)temperature;
 }
 
 //-------Get humidity data--------
 uint16_t get_humidity_data()
 {
-		return (uint16_t)humidity;	
+	return (uint16_t)humidity;
 }
 
 void tempHum_taskCreate(UBaseType_t task_priority){
@@ -110,7 +110,7 @@ void tempHum_Run() {
 			
 		}
 	}
-		
+	
 }
 
 void tempHum_Task( void *pvParameters )

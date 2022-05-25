@@ -5,13 +5,13 @@
 #include <stdlib.h>
 #include "message_buffer.h"
 
-#include "lora_driver.h" 
+#include "lora_driver.h"
 #include "UpLinkHandler.h"
 
 #include "SensorData.h"
 
 #define LORA_appEUI "49B360EEE16A8D4C"
-#define LORA_appKEY "E0597BF885F1F18CF896B91F8E211814" 
+#define LORA_appKEY "E0597BF885F1F18CF896B91F8E211814"
 #include <status_leds.h>
 #include "Utility.h"
 
@@ -22,7 +22,7 @@ extern MessageBufferHandle_t xMessageBuffer;
 void upLinkHandler_StartTask(){
 	for(;;)
 	{
-	
+		
 		lora_Handler_task();
 	}
 }
@@ -42,7 +42,7 @@ void upLink_create(UBaseType_t priority)
 
 
 static void uplink_lora_setup(void)
-{	
+{
 	char _out_buf[20];
 	lora_driver_returnCode_t rc;
 	status_leds_slowBlink(led_ST2); // OPTIONAL: Led the green led blink slowly while we are setting up LoRa
@@ -117,7 +117,20 @@ static void uplink_lora_setup(void)
 	}
 }
 
-
+void send(size_t xBytesSent){
+	xBytesSent = xMessageBufferReceive(
+	xMessageBuffer,
+	(void*) &_uplink_payload,  			// Object to be send
+	sizeof(_uplink_payload),	// Size of object
+	portMAX_DELAY);
+	
+	
+	if (xBytesSent>0)
+	{
+		status_leds_shortPuls(led_ST4);  // OPTIONAL
+		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+	}
+}
 
 void lora_Handler_task()
 {
@@ -134,20 +147,9 @@ void lora_Handler_task()
 	
 	for(;;)
 	{
-		xBytesSent = xMessageBufferReceive(
-		xMessageBuffer,
-		(void*) &_uplink_payload,  			// Object to be send
-		sizeof(_uplink_payload),	// Size of object
-		portMAX_DELAY);
-		
-		
-		if (xBytesSent>0)
-		{
-			status_leds_shortPuls(led_ST4);  // OPTIONAL
-			printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
-		}
+		send(xBytesSent);
 
 	}
 }
-	
+
 
