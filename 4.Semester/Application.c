@@ -34,7 +34,7 @@ extern EventGroupHandle_t _dataReadyEventGroup;
 void Application_Task(void* pvParameters)
 {
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = pdMS_TO_TICKS(100000UL); // Upload message every 5 minutes (300000 ms)
+	const TickType_t xFrequency = pdMS_TO_TICKS(60000UL); // Upload message every 5 minutes (300000 ms)
 	xLastWakeTime = xTaskGetTickCount();
 	
 	for (;;)
@@ -60,11 +60,11 @@ void application_run(TickType_t* xLastWakeTime,TickType_t xFrequency)
 	if ((dataReadyEventBits & (CO2_BIT | TEMPERATURE_HUMIDITY_BIT) ) == (CO2_BIT | TEMPERATURE_HUMIDITY_BIT))
 	{
 		setTemperatureData(get_temperature_data());
-		//printf("Temperature data ---> %d ",get_temperature_data());
+		printf("Temperature data ---> %d ",get_temperature_data());
 		setHumidityData(get_humidity_data());
-		//printf(" Humidity data ---> %d ",get_humidity_data());
+		printf(" Humidity data ---> %d ",get_humidity_data());
 		setCO2Ppm(get_CO2_data());
-		//printf("CO2 data ---> %i ",get_CO2_data());
+		printf("CO2 data ---> %i ",get_CO2_data());
 		
 		payload=getLoRaPayload((uint8_t)2);
 		vTaskDelay(pdMS_TO_TICKS(50UL));

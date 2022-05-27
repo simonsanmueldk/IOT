@@ -15,6 +15,7 @@
 
 static lora_driver_payload_t _downlink_payload;
 extern  MessageBufferHandle_t downlinkMessageBuffer;
+
 uint16_t minHumidity;
 int16_t minTemperature;
 uint16_t maxHumidity;
@@ -23,6 +24,7 @@ int16_t maxTemperature;
 
 
 void lora_DownLinkHandler_startTask(){
+	
 	for(;;)
 	{
 		lora_DownLinkHandler_task();
@@ -43,24 +45,33 @@ void lora_DownLinkHandler_create(UBaseType_t priority)
 void lora_DownLinkHandler_task()
 {     
 	size_t xReceivedBytes;
+	
 	xReceivedBytes=xMessageBufferReceive(
 	downlinkMessageBuffer,
-	&_downlink_payload,
+	(void*)&_downlink_payload,
 	sizeof(lora_driver_payload_t),
 	portMAX_DELAY);
-
+	
+	
 	if (xReceivedBytes>0)
 	{	
-		
 		printf("DOWN LINK: from port: %d with %d bytes received!\n", _downlink_payload.portNo, _downlink_payload.len);
 		
 			if (8==_downlink_payload.len )
 			{
 				
-				 minHumidity = (_downlink_payload.bytes[0] << 8) + _downlink_payload.bytes[1];
-				 minTemperature = (_downlink_payload.bytes[2] << 8) + _downlink_payload.bytes[3];
-				 maxHumidity = (_downlink_payload.bytes[4] << 8) + _downlink_payload.bytes[5];
-				 maxTemperature = (_downlink_payload.bytes[6] << 8) + _downlink_payload.bytes[7];
+				uint16_t minHumidity = (_downlink_payload.bytes[0] << 8) + _downlink_payload.bytes[1];
+				printf("MINHumidity %d", minHumidity);
+				
+				uint16_t minTemperature = (_downlink_payload.bytes[2] << 8) + _downlink_payload.bytes[3];
+				printf("MINTemperature %d", minTemperature);
+				
+				uint16_t maxHumidity = (_downlink_payload.bytes[4] << 8) + _downlink_payload.bytes[5];
+				printf("MAXHumidity %d", maxHumidity);
+				
+				uint16_t maxTemperature = (_downlink_payload.bytes[6] << 8) + _downlink_payload.bytes[7];
+				printf("MAXTemperature %d", maxTemperature);
+				
 				Configuration_SetMinTemperature(minTemperature);
 				Configuration_SetMinHumidity(minHumidity);
 				Configuration_SetMaxTemperature(maxTemperature);
@@ -71,11 +82,6 @@ void lora_DownLinkHandler_task()
 				// Retry in 2.5 minutes
 				vTaskDelay(pdMS_TO_TICKS(150000)); 			}
 			
-			puts("finished");
-	}
-	
-			
-	
 		
-
+	}
 }

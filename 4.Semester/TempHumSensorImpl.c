@@ -108,7 +108,7 @@ void tempHum_Run() {
 			vTaskDelay(pdMS_TO_TICKS(100UL));
 			humidity =  hih8120_getHumidity();
 			temperature = hih8120_getTemperature();
-			//printf("<<Temperature Humidity task set>>");
+			printf("<<Temperature Humidity task set>>");
 			xEventGroupSetBits(_dataReadyEventGroup, TEMPERATURE_HUMIDITY_READY_BIT);
 		}
 	}

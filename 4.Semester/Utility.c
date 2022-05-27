@@ -10,6 +10,7 @@
  #include "Utility.h"
  #include <lora_driver.h>
  const size_t xMessageBufferSizeBytes = 100;
+ 
  void create_message_buffer()
  {
 	 xMessageBuffer = xMessageBufferCreate( xMessageBufferSizeBytes );

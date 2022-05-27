@@ -32,6 +32,7 @@
 #include <rc_servo.h>
 #include "ConditionerController.h"
 #include "Utility.h"
+#include "Configuration.h"
 
 extern MessageBufferHandle_t downlinkMessageBuffer;
 
@@ -43,9 +44,8 @@ void create_tasks()
 	tempHum_taskCreate(1);
 	//ToDo maybe to move inside the application task
 	SensorDataPackage_create();
-	
-	//conditioner_controller_create(2);
-	
+	conditioner_controller_create(4);
+	Configuration_create();
 }
 
 void drivers_initialisation()
@@ -53,7 +53,7 @@ void drivers_initialisation()
 	
 	  hih8120_initialise();
 	  mh_z19_initialise(ser_USART3);
-	  //rc_servo_initialise();
+	  rc_servo_initialise();
 }
 
 void createUtility()
@@ -74,14 +74,15 @@ void initialiseSystem()
 	create_tasks();
 	status_leds_initialise(5); // Priority 5 for internal task
 	// Initialise the LoRaWAN driver without down-link buffer
-	lora_driver_initialise(ser_USART1, downlinkMessageBuffer);
+	createUtility();
+	lora_driver_initialise(1, downlinkMessageBuffer);
 	// Create UpLinkTask and start it up with priority 4 and setup the LoRaWan
 	upLink_create(4);
 	
 	// Create DownlinkTask and start it up with priority 5
 	lora_DownLinkHandler_create(5);
 
-    createUtility();
+    
 }
 
 /*-----------------------------------------------------------*/

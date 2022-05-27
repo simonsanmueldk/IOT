@@ -46,39 +46,52 @@ ConfigurationReturnCode Configuration_destroy(Configuration_t self)
 
 void Configuration_SetMinTemperature(int16_t temperature_data)
 {
-	
 	if( xSemaphoreTake(mutex, portMAX_DELAY)==pdTRUE)
 	{
 		conf->min_temperature_data=temperature_data;
+		printf("CONFIGURATION MIN TEMP-->%i",conf->min_temperature_data);
+		xSemaphoreGive(mutex);
 	}
 	
-	xSemaphoreGive(mutex);
-
-
+	puts("HAHA");
 }
 void Configuration_SetMaxTemperature(int16_t temperature_data)
 {
-	xSemaphoreTake(mutex, portMAX_DELAY);
-	conf->max_temperature_data=temperature_data;
-	xSemaphoreGive(mutex);
+	if( xSemaphoreTake(mutex, portMAX_DELAY)==pdTRUE)
+	{
+		conf->max_temperature_data=temperature_data;
+		//printf("CONFIGURATION MAX TEMP-->%i",conf->max_temperature_data);
+		xSemaphoreGive(mutex);
+	}
+	
+	puts("HAHA1");
 
 }
 void Configuration_SetMinHumidity(uint16_t humidity_data)
 {
-	xSemaphoreTake(mutex, portMAX_DELAY);
+	if( xSemaphoreTake(mutex, portMAX_DELAY)==pdTRUE)
+	{
 	conf->min_humidity_data=humidity_data;
-	xSemaphoreGive(mutex);
+	//printf("CONFIGURATION MIN HUM-->%i",conf->min_humidity_data);
+		xSemaphoreGive(mutex);
+	}
 
+puts("HAHA2");
 
 }
 
 
 void Configuration_SetMaxHumidity(uint16_t humidity_data)
 {
-	xSemaphoreTake(mutex, portMAX_DELAY);
-conf->max_humidity_data=humidity_data;
-xSemaphoreGive(mutex);
+	if( xSemaphoreTake(mutex, portMAX_DELAY)==pdTRUE)
+	{
 
+	conf->max_humidity_data=humidity_data;
+	//printf("CONFIGURATION MAX HUM-->%i",conf->max_humidity_data);
+	xSemaphoreGive(mutex);
+	}
+
+puts("HAHA3");
 }
 
 int16_t Configuration_GetMaxTemperature()
@@ -103,6 +116,7 @@ uint16_t Configuration_GetMaxHumidity()
 
 uint16_t Configuration_GetMinHumidity()
 {
+	printf("GETTING MIN HUMID");
 	xSemaphoreTake(mutex, portMAX_DELAY);
 	return conf->min_humidity_data;
 	xSemaphoreGive(mutex);
