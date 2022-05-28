@@ -46,32 +46,31 @@ void Conditioner_task()
 	vTaskDelay(6000);
 	current_humiditiy=get_humidity_data();
 	current_temperature=get_temperature_data();
-	printf("CURRENT %i",current_humiditiy);
-	/*
+	//printf("CURRENT %i",current_humiditiy);
+	
 	min_humidity=Configuration_GetMinHumidity();
 	printf("Configuration get min humidity %i",Configuration_GetMinHumidity());
 	max_humidity=Configuration_GetMaxHumidity();
 	min_temperature=Configuration_GetMinTemperature();
 	max_temperature=Configuration_GetMaxTemperature();
-	printf("Actuator temeprature %i",min_temperature);
-	
+	printf("Actuator MinTemp %i",min_temperature);
+	printf("Actuator MaxTemp %i",max_temperature);
+	printf("Actuator MinHum %i",min_humidity);
+	printf("Actuator MaxHum %i",max_humidity);
+	printf("Current Hum %i",current_humiditiy);
+	printf("Current Temp %i",current_temperature);
+
 	if ((current_humiditiy<min_humidity ) || (current_temperature<min_temperature ))
 	{
 		
 	}
 	else if ((current_humiditiy>max_humidity) || (current_temperature>max_temperature))
 	{
+		printf("MOVINGSERVO");
 		actuator-=100;
 		rc_servo_setPosition((uint8_t)0,actuator);
-		actuator=0;
-	}*/
-	
-	if (current_humiditiy>0)
-	{
-		actuator+=100;
-		rc_servo_setPosition((uint8_t)0,actuator);
-		actuator=0;
+
 	}
 	
+	
 }
-
