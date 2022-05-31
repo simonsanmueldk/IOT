@@ -60,8 +60,8 @@ void lora_DownLinkHandler_task()
 			if (8==_downlink_payload.len )
 			{
 				
-				uint16_t minHumidity = (_downlink_payload.bytes[0] << 8) + _downlink_payload.bytes[1];
-				printf("MINHumidity %d", minHumidity);
+				uint16_t maxTemperature = (_downlink_payload.bytes[0] << 8) + _downlink_payload.bytes[1];
+				printf("MAXTemperature %d", maxTemperature);
 				
 				uint16_t minTemperature = (_downlink_payload.bytes[2] << 8) + _downlink_payload.bytes[3];
 				printf("MINTemperature %d", minTemperature);
@@ -69,19 +69,19 @@ void lora_DownLinkHandler_task()
 				uint16_t maxHumidity = (_downlink_payload.bytes[4] << 8) + _downlink_payload.bytes[5];
 				printf("MAXHumidity %d", maxHumidity);
 				
-				uint16_t maxTemperature = (_downlink_payload.bytes[6] << 8) + _downlink_payload.bytes[7];
-				printf("MAXTemperature %d", maxTemperature);
+				uint16_t minHumidity = (_downlink_payload.bytes[6] << 8) + _downlink_payload.bytes[7];
+				printf("MINHumidity %d", minHumidity);
 				
+				printf("Downlikn start ");
 				Configuration_SetMinTemperature(minTemperature);
 				Configuration_SetMinHumidity(minHumidity);
 				Configuration_SetMaxTemperature(maxTemperature);
 				Configuration_SetMaxHumidity(maxHumidity);
+				printf("FINISH");
 			}
 			else
 			{
 				// Retry in 2.5 minutes
 				vTaskDelay(pdMS_TO_TICKS(150000)); 			}
-			
-		
 	}
 }

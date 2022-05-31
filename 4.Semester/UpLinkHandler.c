@@ -117,21 +117,6 @@ static void uplink_lora_setup(void)
 	}
 }
 
-void send(size_t xBytesSent){
-	
-	xBytesSent = xMessageBufferReceive(
-	xMessageBuffer,
-	(void*) &_uplink_payload,  			// Object to be send
-	sizeof(_uplink_payload),	// Size of object
-	portMAX_DELAY);
-
-	
-	if (xBytesSent>0)
-	{
-		status_leds_shortPuls(led_ST4);  // OPTIONAL
-		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
-	}
-}
 
 void lora_Handler_task()
 {
@@ -152,5 +137,23 @@ void lora_Handler_task()
 
 	}
 }
+
+void send(size_t xBytesSent){
+	
+	xBytesSent = xMessageBufferReceive(
+	xMessageBuffer,
+	(void*) &_uplink_payload,  			// Object to be send
+	sizeof(_uplink_payload),	// Size of object
+	portMAX_DELAY);
+
+	
+	if (xBytesSent>0)
+	{
+		status_leds_shortPuls(led_ST4);  // OPTIONAL
+		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+	}
+}
+
+
 
 

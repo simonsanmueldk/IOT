@@ -15,8 +15,13 @@
  {
 	 xMessageBuffer = xMessageBufferCreate( xMessageBufferSizeBytes );
 	 downlinkMessageBuffer = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2);;
+	 
  }
  
+ void create_mutex()
+ {
+	 mutex = xSemaphoreCreateMutex();
+ }
  
 void create_event_groups()
 {

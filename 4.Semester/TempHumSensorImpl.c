@@ -25,12 +25,12 @@ extern EventGroupHandle_t _dataReadyEventGroup;
 TickType_t xLastWakeTime;
 TickType_t xFrequency;
 
-float temperature = 0.0;
-float humidity = 0.0;
+float temperature = 0;
+uint16_t humidity = 0;
 EventBits_t event_measure;
 
 typedef struct Temp_Humidity_Sensor {
-	float temperature_data;
+	uint16_t temperature_data;
 	float humidity_data;
 }Temp_Humidity_Sensor;
 
@@ -57,7 +57,7 @@ uint16_t get_temperature_data()
 //-------Get humidity data--------
 uint16_t get_humidity_data()
 {
-	return (uint16_t)humidity;
+	return humidity;
 }
 
 void tempHum_taskCreate(UBaseType_t task_priority){
@@ -75,8 +75,6 @@ void tempHum_taskCreate(UBaseType_t task_priority){
 
 /* Task to run for the sensors to work */
 void tempHum_Run() {
-	//Wait for Event bits to be set in Group
-	
 	event_measure = xEventGroupWaitBits(
 	_meassureEventGroup,
 	TEMPERATURE_HUMIDITY_BIT,
@@ -86,9 +84,7 @@ void tempHum_Run() {
 		
 	if ((event_measure & TEMPERATURE_HUMIDITY_BIT) ==TEMPERATURE_HUMIDITY_BIT)
 	{
-		
 		vTaskDelay( pdMS_TO_TICKS(100UL));
-		
 		if (HIH8120_OK != hih8120_wakeup())
 		{
 			vTaskDelay(pdMS_TO_TICKS(100UL));
@@ -99,20 +95,15 @@ void tempHum_Run() {
 			}
 		}
 		hih8120_measure();
-		
 		vTaskDelay(pdMS_TO_TICKS(50UL));
-		
 		if (HIH8120_OK == hih8120_measure() )
 		{
-			
 			vTaskDelay(pdMS_TO_TICKS(100UL));
-			humidity =  hih8120_getHumidity();
-			temperature = hih8120_getTemperature();
-			printf("<<Temperature Humidity task set>>");
+			humidity =  hih8120_getHumidityPercent_x10();
+			temperature = hih8120_getTemperature_x10();
 			xEventGroupSetBits(_dataReadyEventGroup, TEMPERATURE_HUMIDITY_READY_BIT);
 		}
 	}
-	
 }
 
 void tempHum_Task( void *pvParameters )

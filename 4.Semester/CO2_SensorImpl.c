@@ -71,8 +71,6 @@ uint16_t get_CO2_data(){
 
 
 void CO2_taskRun() {
-	
-	
 	EventBits_t event_measure;
 	event_measure = xEventGroupWaitBits(
 	_meassureEventGroup,
@@ -80,16 +78,14 @@ void CO2_taskRun() {
 	pdTRUE,
 	pdTRUE,
 	portMAX_DELAY);
-	
 	if ((event_measure & CO2_BIT)==CO2_BIT)
 	{
 		vTaskDelay(pdMS_TO_TICKS(100UL));
 		rc = mh_z19_takeMeassuring();
 		if (rc != MHZ19_OK)
 		{
-			printf("task got wrong");
+			printf("CO2 task got wrong");
 		}
-		printf("<<CO2 task set>>");		
 	}		
 }
 
@@ -101,5 +97,4 @@ void CO2_Sensor_Task(void *pvParameters){
 	{
 		CO2_taskRun();
 	}
-	
 }

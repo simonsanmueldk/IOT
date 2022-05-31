@@ -27,7 +27,8 @@ CO2_SensorImpl.d CO2_SensorImpl.o: .././CO2_SensorImpl.c \
  ../FreeRTOS/src/event_groups.h ../FreeRTOS/src/timers.h \
  ../drivers/mh_z19.h ../drivers/serial.h ../FreeRTOS/src/task.h \
  .././Utility.h ../FreeRTOS/src/message_buffer.h \
- ../FreeRTOS/src/stream_buffer.h
+ ../FreeRTOS/src/stream_buffer.h ../FreeRTOS/src/semphr.h \
+ ../FreeRTOS/src/queue.h
 
 .././CO2_Sensor.h:
 
@@ -102,3 +103,7 @@ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbo
 ../FreeRTOS/src/message_buffer.h:
 
 ../FreeRTOS/src/stream_buffer.h:
+
+../FreeRTOS/src/semphr.h:
+
+../FreeRTOS/src/queue.h:

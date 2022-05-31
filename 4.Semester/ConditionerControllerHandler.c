@@ -31,10 +31,8 @@ void conditioner_controller_create(UBaseType_t priority)
 }
 
 void Conditioner_Task_Run(void* pvParameters)
-{
-	
+{	
 	(void)pvParameters;
-	
 	for (;;)
 	{
 		Conditioner_task();
@@ -42,35 +40,28 @@ void Conditioner_Task_Run(void* pvParameters)
 }
 
 void Conditioner_task()
-{	
+{
 	vTaskDelay(6000);
 	current_humiditiy=get_humidity_data();
 	current_temperature=get_temperature_data();
-	//printf("CURRENT %i",current_humiditiy);
-	
 	min_humidity=Configuration_GetMinHumidity();
-	printf("Configuration get min humidity %i",Configuration_GetMinHumidity());
 	max_humidity=Configuration_GetMaxHumidity();
 	min_temperature=Configuration_GetMinTemperature();
 	max_temperature=Configuration_GetMaxTemperature();
-	printf("Actuator MinTemp %i",min_temperature);
-	printf("Actuator MaxTemp %i",max_temperature);
-	printf("Actuator MinHum %i",min_humidity);
-	printf("Actuator MaxHum %i",max_humidity);
-	printf("Current Hum %i",current_humiditiy);
-	printf("Current Temp %i",current_temperature);
-
-	if ((current_humiditiy<min_humidity ) || (current_temperature<min_temperature ))
+	
+	uint16_t temp=min_humidity+max_humidity+min_temperature+max_temperature;
+	
+	if (temp!=0 && ((current_humiditiy<min_humidity ) || (current_temperature<min_temperature )))
 	{
 		
-	}
-	else if ((current_humiditiy>max_humidity) || (current_temperature>max_temperature))
-	{
-		printf("MOVINGSERVO");
-		actuator-=100;
+		actuator+=100;
+		printf("MOVING");
 		rc_servo_setPosition((uint8_t)0,actuator);
-
 	}
-	
-	
+	else if (temp!=0 && ((current_humiditiy>max_humidity) || (current_temperature>max_temperature)))
+	{
+		actuator-=100;
+		printf("MOVING");
+		rc_servo_setPosition((uint8_t)0,actuator);
+	}
 }

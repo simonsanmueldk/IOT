@@ -36,7 +36,7 @@ packet->temperatureData=data;
 }
 void setHumidityData(uint16_t data)
 {
-	
+	 
 packet->humidityData=data;	
 }
 lora_driver_payload_t getLoRaPayload(uint8_t portNo){
@@ -50,4 +50,4 @@ lora_driver_payload_t getLoRaPayload(uint8_t portNo){
 	payload.bytes[4]=(uint8_t)(packet->humidityData>>8);
 	payload.bytes[5] = (uint8_t)(packet->humidityData &  0xFF);
 	return payload;
-	};
+	}

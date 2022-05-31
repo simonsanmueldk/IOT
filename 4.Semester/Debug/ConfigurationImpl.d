@@ -23,7 +23,10 @@ ConfigurationImpl.d ConfigurationImpl.o: .././ConfigurationImpl.c \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
- ../FreeRTOS/src/semphr.h ../FreeRTOS/src/queue.h
+ ../FreeRTOS/src/semphr.h ../FreeRTOS/src/queue.h .././Utility.h \
+ ../FreeRTOS/src/message_buffer.h ../FreeRTOS/src/stream_buffer.h \
+ ../FreeRTOS/src/event_groups.h ../FreeRTOS/src/timers.h \
+ ../FreeRTOS/src/task.h
 
 .././Configuration.h:
 
@@ -84,3 +87,15 @@ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h:
 ../FreeRTOS/src/semphr.h:
 
 ../FreeRTOS/src/queue.h:
+
+.././Utility.h:
+
+../FreeRTOS/src/message_buffer.h:
+
+../FreeRTOS/src/stream_buffer.h:
+
+../FreeRTOS/src/event_groups.h:
+
+../FreeRTOS/src/timers.h:
+
+../FreeRTOS/src/task.h:

@@ -45,7 +45,6 @@ void create_tasks()
 	//ToDo maybe to move inside the application task
 	SensorDataPackage_create();
 	conditioner_controller_create(4);
-	Configuration_create();
 }
 
 void drivers_initialisation()
@@ -60,6 +59,7 @@ void createUtility()
 {
 	create_event_groups();
 	create_message_buffer();
+	create_mutex();
 }
 
 void initialiseSystem()

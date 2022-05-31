@@ -21,12 +21,7 @@
 typedef enum { GOOD,BAD} ConfigurationReturnCode;
 
 
-SemaphoreHandle_t mutex;
 
-
-typedef struct Configuration* Configuration_t;
-
-Configuration_t Configuration_create();
 ConfigurationReturnCode Configuration_destroy();
 void Configuration_SetMinTemperature(int16_t temperature_data);
 void Configuration_SetMinHumidity(uint16_t humidity_data);

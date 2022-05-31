@@ -27,7 +27,7 @@ Application.d Application.o: .././Application.c \
  ../FreeRTOS/src/message_buffer.h ../FreeRTOS/src/stream_buffer.h \
  .././CO2_Sensor.h ../drivers/hih8120.h .././Application.h \
  ../drivers/lora_driver.h ../drivers/serial.h .././Utility.h \
- .././SensorData.h \
+ ../FreeRTOS/src/semphr.h ../FreeRTOS/src/queue.h .././SensorData.h \
  d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h
 
 d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h:
@@ -109,6 +109,10 @@ d:\arduino\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbo
 ../drivers/serial.h:
 
 .././Utility.h:
+
+../FreeRTOS/src/semphr.h:
+
+../FreeRTOS/src/queue.h:
 
 .././SensorData.h:
 
