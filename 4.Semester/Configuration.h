@@ -5,13 +5,14 @@
  *  Author: Dorin Pascal
  */
 
+//---HEADER---
 
 #ifndef CONFIGURATION_H_
 #define CONFIGURATION_H_
 
-
-
 #pragma once
+
+//Includes
 #include <ATMEGA_FreeRTOS.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,8 +20,10 @@
 #include <stdint.h> 
 #include <semphr.h>
 
-
+// Enum for return code
 typedef enum { GOOD,BAD} ConfigurationReturnCode;
+
+//Methods
 ConfigurationReturnCode Configuration_destroy();
 void Configuration_SetMinTemperature(int16_t temperature_data);
 void Configuration_SetMinHumidity(uint16_t humidity_data);
