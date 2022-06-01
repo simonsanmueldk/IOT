@@ -15,32 +15,34 @@
 #include <status_leds.h>
 #include "Utility.h"
 
+//Create the payload
 static lora_driver_payload_t _uplink_payload;
+//Create the message buffer
 extern MessageBufferHandle_t xMessageBuffer;
 
 
+// Start method of the UplinkHandler task
 void upLinkHandler_StartTask(){
 	for(;;)
 	{
-		
+		//Infinite loop to send the measured data
 		lora_Handler_task();
 	}
 }
 
+//Method to create an UplinkHandler Task
 void upLink_create(UBaseType_t priority)
 {
-	
-	
 	xTaskCreate(
-	upLinkHandler_StartTask,
-	"LoraUpLink",
-	configMINIMAL_STACK_SIZE+200,
-	(void*)xMessageBuffer,
-	priority,
+	upLinkHandler_StartTask, // Task method
+	"LoraUpLink", // Name of the task
+	configMINIMAL_STACK_SIZE+200, // Stack size
+	(void*)xMessageBuffer, // Message buffer
+	priority, //Task priority
 	NULL );
 }
 
-
+// Calling required LoRa Serup methods
 static void uplink_lora_setup(void)
 {
 	char _out_buf[20];
@@ -120,33 +122,41 @@ static void uplink_lora_setup(void)
 
 void lora_Handler_task()
 {
-	// Hardware reset of LoRaWAN transceiver
+	// Hardware reset of LoRaWAN
 	lora_driver_resetRn2483(1);
 	vTaskDelay(2UL);
 	lora_driver_resetRn2483(0);
-	// Give it a chance to wakeup
+	
+	// Delay so the device has a time to wake up
 	vTaskDelay(150UL);
 
-	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
-	uplink_lora_setup();
+	
+	lora_driver_flushBuffers(); // Getting rid of first version after reset!
+	uplink_lora_setup(); // Setting up the LoraWan
 	size_t xBytesSent;
 	
 	for(;;)
 	{
+		// Method to send the bytes through LoRaWan
 		send(xBytesSent);
 	}
 }
 
 void send(size_t xBytesSent){
 	
+	//Set recieved message buffer to xBytesSent so they can be send
 	xBytesSent = xMessageBufferReceive(
-	xMessageBuffer,
-	(void*) &_uplink_payload,  			// Object to be send
-	sizeof(_uplink_payload),	// Size of object
+	xMessageBuffer, // Message buffer
+	(void*) &_uplink_payload, // Object to be send
+	sizeof(_uplink_payload), // Size of object
 	portMAX_DELAY);
+	
+	//Only send if xBytesSent is not empty
 	if (xBytesSent>0)
 	{
-		status_leds_shortPuls(led_ST4);  // OPTIONAL
+		status_leds_shortPuls(led_ST4);  // Pulse the led for troubleshooting purpose
+		
+		//Print the return code for troubleshooting purpose and send the data by LoRa Driver
 		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
 	}
 }
