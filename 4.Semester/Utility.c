@@ -11,18 +11,20 @@
  #include <lora_driver.h>
  const size_t xMessageBufferSizeBytes = 100;
  
- void create_message_buffer()
- {
-	 xMessageBuffer = xMessageBufferCreate( xMessageBufferSizeBytes );
-	 downlinkMessageBuffer = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2);;
-	 
- }
+// Method to create a message buffer
+void create_message_buffer()
+{
+	xMessageBuffer = xMessageBufferCreate( xMessageBufferSizeBytes );
+	downlinkMessageBuffer = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2);;
+}
  
- void create_mutex()
- {
-	 mutex = xSemaphoreCreateMutex();
- }
+// Method to create mutex
+void create_mutex()
+{
+	mutex = xSemaphoreCreateMutex();
+}
  
+// Method to create event groups
 void create_event_groups()
 {
 	_meassureEventGroup=xEventGroupCreate();
