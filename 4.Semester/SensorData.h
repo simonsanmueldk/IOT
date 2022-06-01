@@ -5,7 +5,9 @@
  *  Author: Dorin Pascal
  */ 
 
+//---HEADER---
 
+//Includes
 #pragma once
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,8 +15,11 @@
 #include <stdint.h>
 #include <lora_driver.h>
 
+//Structure
 typedef struct SensorDataPackage* SensorDataPackage_t;
 
+
+//Methods
 SensorDataPackage_t SensorDataPackage_create();
 void setCO2Ppm(uint16_t pppm);
 void setTemperatureData(uint16_t data);
