@@ -12,3 +12,6 @@ Project setup
 - [Dorin Pascal](https://github.com/dorinpascal)
 - [Simon Samuel](https://github.com/simonsanmueldk)
 - [Junjie Chen](https://github.com/skybainiao)
+
+_Iot Testing Project_
+[Testing project](https://github.com/simonsanmueldk/IoTTesting)
