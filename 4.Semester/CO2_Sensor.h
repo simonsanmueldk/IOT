@@ -15,10 +15,6 @@
 #include <avr/io.h>
 #include "event_groups.h"
 
-typedef enum CO2ReturnCode{
-	OK,
-	FAILED
-}CO2ReturnCode;
 typedef struct CO2_Sensor* co2_sensor_t;
 
 void CO2_sensor_create();
