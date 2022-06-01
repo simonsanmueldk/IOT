@@ -71,13 +71,10 @@ void lora_DownLinkHandler_task()
 				
 				uint16_t minHumidity = (_downlink_payload.bytes[6] << 8) + _downlink_payload.bytes[7];
 				printf("MINHumidity %d", minHumidity);
-				
-				printf("Downlikn start ");
 				Configuration_SetMinTemperature(minTemperature);
 				Configuration_SetMinHumidity(minHumidity);
 				Configuration_SetMaxTemperature(maxTemperature);
 				Configuration_SetMaxHumidity(maxHumidity);
-				printf("FINISH");
 			}
 			else
 			{

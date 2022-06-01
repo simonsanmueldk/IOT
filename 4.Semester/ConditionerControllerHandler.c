@@ -14,12 +14,11 @@ uint16_t min_temperature;
 uint16_t min_humidity;
 uint16_t max_temperature;
 uint16_t max_humidity;
-uint16_t actuator;
+
 
 
 void conditioner_controller_create(UBaseType_t priority)
 {
-	actuator=0;
 	xTaskCreate(
 	Conditioner_Task_Run,
 	"ConditionerController",
@@ -53,15 +52,16 @@ void Conditioner_task()
 	
 	if (temp!=0 && ((current_humiditiy<min_humidity ) || (current_temperature<min_temperature )))
 	{
-		
-		actuator+=100;
-		printf("MOVING");
-		rc_servo_setPosition((uint8_t)0,actuator);
+		printf("MOVING the Servo");
+		rc_servo_setPosition((uint8_t)0,100);
 	}
 	else if (temp!=0 && ((current_humiditiy>max_humidity) || (current_temperature>max_temperature)))
 	{
-		actuator-=100;
-		printf("MOVING");
-		rc_servo_setPosition((uint8_t)0,actuator);
+		printf("MOVING the Servo");
+		rc_servo_setPosition((uint8_t)0,-100);
+	}
+	else
+	{
+		rc_servo_setPosition((uint8_t)0,0);
 	}
 }

@@ -134,7 +134,6 @@ void lora_Handler_task()
 	for(;;)
 	{
 		send(xBytesSent);
-
 	}
 }
 
@@ -145,8 +144,6 @@ void send(size_t xBytesSent){
 	(void*) &_uplink_payload,  			// Object to be send
 	sizeof(_uplink_payload),	// Size of object
 	portMAX_DELAY);
-
-	
 	if (xBytesSent>0)
 	{
 		status_leds_shortPuls(led_ST4);  // OPTIONAL

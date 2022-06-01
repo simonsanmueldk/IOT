@@ -16,13 +16,10 @@ typedef struct SensorDataPackage
 SensorDataPackage_t packet;
 
 SensorDataPackage_t SensorDataPackage_create(){
-	 packet = pvPortMalloc(sizeof(SensorDataPackage));
-	
+	packet = pvPortMalloc(sizeof(SensorDataPackage));
 	if (NULL == packet){
 		return NULL;
 	}
-	
-	
 	return packet;
 }
 

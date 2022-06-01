@@ -68,9 +68,7 @@ void initialiseSystem()
 	DDRA |= _BV(DDA0) | _BV(DDA7);
 	// Make it possible to use stdio on COM port 0 (USB) on Arduino board - Setting 57600,8,N,1
 	stdio_initialise(ser_USART0);
-	
 	drivers_initialisation();
-	
 	create_tasks();
 	status_leds_initialise(5); // Priority 5 for internal task
 	// Initialise the LoRaWAN driver without down-link buffer
@@ -89,10 +87,8 @@ void initialiseSystem()
 int main(void)
 {
 	initialiseSystem(); // Must be done as the very first thing!!
-	//printf("Program Started!!\n");
 	printf("Program started \n");
 	vTaskStartScheduler(); // Initialise and run the freeRTOS scheduler. Execution should never return from here.
-	/* Replace with your application code */
 	
 }
 

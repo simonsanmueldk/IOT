@@ -18,10 +18,9 @@
 #include <string.h>
 #include <stdint.h> 
 #include <semphr.h>
+
+
 typedef enum { GOOD,BAD} ConfigurationReturnCode;
-
-
-
 ConfigurationReturnCode Configuration_destroy();
 void Configuration_SetMinTemperature(int16_t temperature_data);
 void Configuration_SetMinHumidity(uint16_t humidity_data);
