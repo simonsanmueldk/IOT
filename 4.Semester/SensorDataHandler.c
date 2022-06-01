@@ -5,6 +5,7 @@
  *  Author: Dorin Pascal
  */ 
 #include "SensorData.h"
+//Create payload
 static lora_driver_payload_t payload;
 
 //Structure 
