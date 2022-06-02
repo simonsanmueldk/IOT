@@ -44,5 +44,3 @@ UpLinkHandler.c
 
 main.c
 
-LoRaWANHandler.c
-
